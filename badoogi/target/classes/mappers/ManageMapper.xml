@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="kr.ac.badoogi.mapper.ManageMapper">
+	
+	<insert id="Insertmanage" parameterType="kr.ac.badoogi.vo.ManageVo">
+		INSERT INTO MANAGETB(TITLE,CONTENT,STARTDATE,ENDDATE,MANAGECODE) VALUES(#{title},#{content},#{startdate},#{enddate},#{managecode})
+		   <selectKey keyProperty="bno" resultType="int">
+  	      		SELECT LAST_INSERT_ID()
+   		   </selectKey>
+	</insert>
+	
+	<insert id="Insertmanageimg">
+		INSERT INTO MANAGEIMGTB VALUES(#{bno},#{managecode},#{realfilename},#{realPath})
+	</insert>
+	
+	<insert id="Inserbanner">
+	
+		INSERT INTO BANNERTB VALUES(#{managecode},#{bno})
+	</insert>
+	<select  id="Managelist" resultType="kr.ac.badoogi.vo.ManageVo">
+		  SELECT
+        CASE MANAGECODE
+        WHEN "ba" THEN (SELECT REALFILENAME FROM MANAGEIMGTB WHERE MANAGEIMGTB.BNO=MANAGETB.BNO)
+        ELSE "null"
+        END AS REALFILENAME,
+        CASE MANAGECODE
+        WHEN "BA" THEN (SELECT REALpATH FROM MANAGEIMGTB WHERE MANAGEIMGTB.BNO=MANAGETB.BNO)
+        ELSE "null"
+        END AS REALPATH,
+        TITLE,CONTENT,STARTDATE,ENDDATE,WRITEDATE,MANAGECODE,BNO FROM MANAGETB
+	
+	</select>
+	
+	<select id="Readposting" resultType="kr.ac.badoogi.vo.ManageVo">
+		 SELECT TITLE,CONTENT,STARTDATE,ENDDATE,WRITEDATE,MANAGECODE,BNO FROM MANAGETB WHERE BNO=#{bno}
+	</select>
+	
+	<select id="Getbanner" resultType="kr.ac.badoogi.vo.ManageVo">
+		SELECT TITLE,CONTENT,STARTDATE,ENDDATE,WRITEDATE,MANAGETB.MANAGECODE AS MANAGECODE,
+		MANAGETB.BNO AS BNO, MANAGEIMGTB.REALFILENAME AS REALFILENAME,MANAGEIMGTB.REALPATH AS REALPATH
+		FROM MANAGETB JOIN MANAGEIMGTB,BANNERTB 
+		WHERE BANNERTB.BNO=MANAGETB.BNO AND MANAGETB.BNO=MANAGEIMGTB.BNO;
+	
+	</select>
+	
+	<delete id="Delbanner">
+		DELETE FROM BANNERTB WHERE BNO=#{bno} 
+	
+	
+	</delete>
+	</mapper>

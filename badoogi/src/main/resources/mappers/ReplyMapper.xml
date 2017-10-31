@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="kr.ac.badoogi.mapper.ReplyMapper">
+	
+	<insert id="Insertreply">
+		INSERT INTO REPLYTB(REPLYCODE,LICENSENUMBER,COMMUNITYBNO,EMAIL,REPLY)
+		VALUES (#{replycode},#{licensenumber},#{communitybno},#{email},#{reply})
+	</insert>
+	
+		<insert id="Insertsubreply">
+		INSERT INTO RE_REPLYTB(REPLYBNO,EMAIL,REPLY)
+		VALUES (#{replybno},#{email},#{reply})
+	</insert>
+	<select id="Replylist" resultType="kr.ac.badoogi.vo.ReplyVo">
+       SELECT REPLYTB.REPLYBNO,REPLYCODE,COMMUNITYBNO,REPLYTB.EMAIL AS EMAIL, REPLYTB.REPLY,
+		 REPLYTB.WRITEDATE, NICKNAMETB.NICKNAME AS NICKNAME,USERTB.USERCODE,
+         (SELECT count(REPLYBNO) FROM RE_REPLYTB WHERE RE_REPLYTB.REPLYBNO=REPLYTB.REPLYBNO) AS ROWNUM,
+         (select licensenumber from licenseetb where licenseetb.email=replytb.email) as LICENSENUMBER
+		FROM nicknametb JOIN REPLYTB,USERTB
+		WHERE REPLYTB.EMAIL=NICKNAMETB.EMAIL
+        AND REPLYTB.EMAIL=USERTB.EMAIL
+        AND IF(#{replycode}='community',COMMUNITYBNO=#{communitybno},LICENSENUMBER=#{licensenumber})
+	</select>
+
+	<select id="Rereplylist" resultType="kr.ac.badoogi.vo.ReplyVo">
+    SELECT 
+        WRITEDATE,REPLYBNO,RE_REPLYTB.EMAIL, REPLY,WRITEDATE,
+		NICKNAMETB.NICKNAME AS NICKNAME,USERTB.USERCODE AS USERCODE
+		,(select licensenumber from licenseetb where licenseetb.email=re_replytb.email) as LICENSENUMBER
+        FROM RE_REPLYTB JOIN NICKNAMETB ,USERTB
+		WHERE RE_REPLYTB.EMAIL=NICKNAMETB.EMAIL
+		AND USERTB.EMAIL=RE_REPLYTB.EMAIL
+        AND REPLYBNO=#{replybno}
+	</select>
+	
+		<select id="Replyone" resultType="kr.ac.badoogi.vo.ReplyVo">
+      SELECT 
+        WRITEDATE,REPLYBNO,REPLYCODE,REPLYTB.EMAIL AS EMAIL, REPLY,
+		NICKNAMETB.NICKNAME AS NICKNAME,COMMUNITYBNO,LICENSENUMBER,WRITEDATE
+        FROM REPLYTB JOIN NICKNAMETB 
+		WHERE REPLYTB.EMAIL=NICKNAMETB.EMAIL
+        AND REPLYBNO=#{replybno}
+	</select>
+	</mapper>
+	

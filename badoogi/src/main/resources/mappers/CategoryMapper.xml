@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="kr.ac.badoogi.mapper.CategoryMapper">
+	
+	<insert id="Insertcategory">
+				
+			INSERT INTO CATEGORYTB
+			SELECT
+					#{licensenumber},
+					#{category}
+			FROM DUAL
+ 			WHERE EXISTS(
+ 				SELECT CATEGORY
+ 				FROM CATEGORYINFOTB 
+ 				WHERE CATEGORY=#{category});
+	</insert>
+	
+	<insert id="Insertdetail">
+	
+			INSERT INTO ENTERPRISEDETAILTB
+			VALUES(#{contact},#{licensenumber},#{address},#{weekend},#{weekday},#{domain},#{storename},#{parking},#{cp_entnum},#{privateor})
+	</insert>
+	
+	<insert id="Insertrule">
+			INSERT COMMENTTB VALUES(#{comment},#{licensenumber},#{guide},#{precaution})
+	</insert>
+	
+	<insert id="Insertfacility">
+			INSERT INTO FACILITYTB 
+			SELECT
+					#{licensenumber},
+					#{category}
+			FROM DUAL
+ 			WHERE EXISTS(
+ 				SELECT FACILITY
+ 				FROM FACILITYINFOTB 
+ 				WHERE FACILITY=#{category})
+	</insert>
+	<!-- img -->
+	<insert id="Insertentimg">
+			INSERT INTO ENTIMGTB(LICENSENUMBER,FRONTIMG,REALPATH) VALUES(#{licensenumber},#{realfilename},#{realPath}) 
+		
+	</insert>
+	<select id="Catelist" resultType="kr.ac.badoogi.dto.CatelistDto">
+		SELECT *,
+		 (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
+    	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+		FROM ENTERPRISEDETAILTB JOIN CATEGORYTB JOIN ENTIMGTB
+		WHERE ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
+		AND CATEGORY=#{category}
+        AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
+		AND ENTERPRISEDETAILTB.PRIVATE='N'
+	</select>
+	
+	
+	<select  id="Entdetail" resultType="kr.ac.badoogi.vo.EntdetailVo">
+	    SELECT  *, (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
+    	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email}  and like_badoomcode='badoom') as badoom,
+         (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+		 FROM ENTERPRISEDETAILTB JOIN COMMENTTB JOIN ENTIMGTB
+		WHERE ENTERPRISEDETAILTB.LICENSENUMBER=COMMENTTB.LICENSENUMBER
+		AND ENTERPRISEDETAILTB.LICENSENUMBER=#{licensenumber}
+        AND ENTERPRISEDETAILTB.LICENSENUMBER=ENTIMGTB.LICENSENUMBER
+
+	</select>
+	
+	<select  id="Facility" resultType="kr.ac.badoogi.vo.CategoryVo">
+		SELECT  FACILITY FROM FACILITYTB WHERE LICENSENUMBER=#{licensenumber}
+	</select>
+	
+	
+	<select id="Allcatelist" resultType="kr.ac.badoogi.dto.CatelistDto">
+	SELECT * FROM ENTERPRISEDETAILTB JOIN ENTIMGTB WHERE ENTERPRISEDETAILTB.PRIVATE='N'
+	</select>
+	
+	</mapper>

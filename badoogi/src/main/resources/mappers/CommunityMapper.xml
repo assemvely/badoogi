@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="kr.ac.badoogi.mapper.CommunityMapper">
+	<insert id="Upload" parameterType="kr.ac.badoogi.vo.CommunityVo">
+		INSERT INTO COMMUNITYTB(USERCODE,EMAIL,COMMENT,PRIVATE) 
+		VALUES (#{usercode},#{email},#{comment},#{privateor})
+	 <selectKey keyProperty="communitybno" resultType="int">
+  	      		SELECT LAST_INSERT_ID()
+   		   </selectKey>
+	</insert>
+	
+	<insert	id="Uploadimg">
+		INSERT INTO COMMUNITYIMGTB(COMMUNITYBNO,REALFILENAME,REALPATH) 
+		VALUES (#{bno},#{realfilename},#{realPath})
+	
+	</insert>
+	<select id="Communitylist" resultType="kr.ac.badoogi.vo.CommunityVo">
+	 SELECT USERCODE,COMMUNITYTB.COMMUNITYBNO AS COMMUNITYBNO,COMMUNITYTB.EMAIL AS EMAIL,COMMENT, NICKNAME,
+    	COMMUNITYIMGTB.REALFILENAME AS REALFILENAME,COMMUNITYIMGTB.REALPATH AS REALPATH,PRIVATE AS PRIVATEOR,
+    	 (select count(communitybno) from replytb where replytb.communitybno=communitytb.communitybno)as rownum,
+         (select count(communitybno) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(communitybno) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+    	FROM COMMUNITYTB JOIN NICKNAMETB,COMMUNITYIMGTB 
+    	WHERE PRIVATE='N' AND COMMUNITYTB.EMAIL=NICKNAMETB.EMAIL 
+    	AND COMMUNITYTB.COMMUNITYBNO=COMMUNITYIMGTB.COMMUNITYBNO
+	</select>
+	
+	<select id="Detail" resultType="kr.ac.badoogi.vo.CommunityVo">
+	 SELECT USERCODE,COMMUNITYTB.COMMUNITYBNO AS COMMUNITYBNO,COMMUNITYTB.EMAIL AS EMAIL,COMMENT, NICKNAME,
+    	COMMUNITYIMGTB.REALFILENAME AS REALFILENAME,COMMUNITYIMGTB.REALPATH AS REALPATH,PRIVATE AS PRIVATEOR,
+    	 	 (select count(communitybno) from replytb where replytb.communitybno=communitytb.communitybno)as rownum,
+    	   (select count(communitybno) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(communitybno) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+    	FROM COMMUNITYTB JOIN NICKNAMETB,COMMUNITYIMGTB 
+    	WHERE PRIVATE='N' AND COMMUNITYTB.EMAIL=NICKNAMETB.EMAIL 
+    	AND COMMUNITYTB.COMMUNITYBNO=COMMUNITYIMGTB.COMMUNITYBNO
+		AND COMMUNITYTB.COMMUNITYBNO=#{communitybno}
+	</select>
+	<select id="Personallist" resultType="kr.ac.badoogi.vo.CommunityVo">
+	SELECT USERCODE,COMMUNITYTB.COMMUNITYBNO AS COMMUNITYBNO,COMMUNITYTB.EMAIL AS EMAIL,COMMENT, NICKNAME,
+    	COMMUNITYIMGTB.REALFILENAME AS REALFILENAME,COMMUNITYIMGTB.REALPATH AS REALPATH,PRIVATE AS PRIVATEOR,
+    	 (select count(communitybno) from replytb where replytb.communitybno=communitytb.communitybno)as rownum,
+    	   (select count(communitybno) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(communitybno) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where communitytb.communitybno=like_badoomtb.communitybno
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+    	FROM COMMUNITYTB JOIN NICKNAMETB,COMMUNITYIMGTB 
+    	WHERE COMMUNITYTB.EMAIL=NICKNAMETB.EMAIL 
+    	AND COMMUNITYTB.COMMUNITYBNO=COMMUNITYIMGTB.COMMUNITYBNO
+		AND COMMUNITYTB.EMAIL=#{email}
+	</select>
+	<update id="Changeprivate">
+	  UPDATE COMMUNITYTB SET PRIVATE=#{privateor} WHERE COMMUNITYBNO=#{communitybno}
+	</update>
+	</mapper>

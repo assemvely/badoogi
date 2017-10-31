@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="kr.ac.badoogi.mapper.LikebadoomMapper">
+	
+		<insert id="Insertlb">
+			INSERT INTO LIKE_BADOOMTB(LICENSENUMBER,COMMUNITYBNO,EMAIL,LIKE_BADOOMCODE)
+			VALUES (#{licensenumber},#{communitybno},#{email},#{likebadoomcode})
+		</insert>
+		<select id="Getlist" resultType="kr.ac.badoogi.vo.LikebadoomVo">
+			SELECT * FROM LIKE_BADOOMTB WHERE EMAIL=#{email}
+		</select>
+		
+		<delete id="Delfromcommu">
+		 	DELETE FROM LIKE_BADOOMTB WHERE COMMUNITYBNO=#{communitybno} 
+		 	AND EMAIL=#{email} AND LIKE_BADOOMCODE=#{likebadoomcode}
+		</delete>
+		<delete id="Delfromcate">
+		 	DELETE FROM LIKE_BADOOMTB WHERE LICENSENUMBER=#{licensenumber} 
+		 	AND EMAIL=#{email} AND LIKE_BADOOMCODE=#{likebadoomcode}		
+		</delete>
+		
+	</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+	<mapper namespace="kr.ac.badoogi.mapper.UserMapper">
+		<!-- join -->
+		<insert id="Insertuser">
+				INSERT INTO USERTB(EMAIL,PW,CERTIFY,USERCODE) VALUES (#{email},#{pw},#{certify},#{usercode})
+		</insert>
+	
+	    <insert id="Insertnick">
+	    	INSERT INTO NICKNAMETB(EMAIL,NICKNAME) VALUES (#{email},#{nickname})
+	    </insert>
+	
+		<insert id="Insertlicensee">
+		   INSERT INTO LICENSEETB(EMAIL,LICENSENUMBER,ADMISSION) VALUES(#{email}, #{licensenumber},#{admission})
+		</insert>
+		
+		<!-- img -->
+		<insert id="Insertimg">
+			INSERT INTO IMAGETB(EMAIL,REALFILENAME,REALPATH) VALUES(#{email},#{realfilename},#{realPath})
+		</insert>
+		<!-- CHECK -->
+		<select id="Nickoverlap" resultType="String">
+			SELECT NICKNAME FROM NICKNAMETB WHERE NICKNAME=#{nickname}
+		</select>
+		<select id="Emailoverlap" resultType="String">
+			SELECT EMAIL FROM USERTB WHERE EMAIL=#{email}
+		</select>
+	
+		<!-- login -->
+		<select id="Login" resultType="kr.ac.badoogi.dto.LoginDto">
+		SELECT
+		CASE usercode
+		WHEN 'ent' THEN (select licenseetb.admission from licenseetb where email=#{email})
+		WHEN 'cus' THEN	'Y'
+		ELSE 'Y'
+		END as admission,
+		case usercode
+		WHEN 'ent' THEN (select licenseetb.licensenumber from licenseetb where email=#{email})
+		WHEN 'cus' THEN	'null'
+		ELSE 'null'
+		END as licensenumber
+		,CASE usercode
+		WHEN 'ent' THEN (select enterprisedetailtb.storename FROM ENTERPRISEDETAILTB 
+		where licensenumber=(select licensenumber from licenseetb where email=#{email}))
+		ELSE 'null'
+		END as storename
+		,usertb.email,pw,usercode,nicknametb.nickname as nickname
+		FROM usertb JOIN nicknametb
+		where
+		usertb.email=#{email} and pw=#{pw} 
+		and usertb.email=nicknametb.email
+		
+		</select>
+	</mapper>
