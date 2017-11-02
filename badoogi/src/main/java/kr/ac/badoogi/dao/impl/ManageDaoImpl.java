@@ -59,7 +59,7 @@ public class ManageDaoImpl implements ManageDao{
 	public List<ManageVo> Getlist(String managecode) throws Exception {
 		// TODO Auto-generated method stub
 			
-		return session.selectList(namespace+".Getlist", managecode);
+		return session.selectList(namespace+".Managelist1", managecode);
 	}
 	
 

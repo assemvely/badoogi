@@ -17,7 +17,7 @@ margin-bottom:80px;
 }
 
 .btn{
-width:775px;
+width:100px;
 height:60px;
 background-color:#FACC2E;
 border:1x solid #FACC2E;
@@ -28,29 +28,14 @@ border:1x solid #FACC2E;
 
 </head>
 <body>
-
-<p style="text-align:center;color:gray;font-size:20px;">readmanage</p>
+<p style="text-align:center;color:gray;font-size:20px;">search</p>
 <hr/>
-<br/>
 <div id="form_style">
-<c:choose>
-<c:when test="${readmanagevo.managecode=='event'}">
-<h3>[${readmanagevo.startdate}~${readmanagevo.enddate}]</h3>
-</c:when>
-<c:when test="${readmanagevo.managecode='noti'}">
-<h3>[${readmanagevo.writedate}]</h3>
-</c:when>
 
+<form action="/search/searchpage">
+<input type="text" id="commusearch" name="keyword" style="width:700px;height:55px;" placeholder="#검색어를 입력해주세요"><button class="btn">검색</button>
 
-</c:choose>
-<h3>${readmanagevo.title }</h3>
-<br/>
-<br/>
-<div>
-${readmanagevo.content}
+</form>
 </div>
-</div>
-
-
 </body>
 </html>

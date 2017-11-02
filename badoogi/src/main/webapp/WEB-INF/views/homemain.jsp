@@ -235,9 +235,17 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
  업체 가입
 </button></a>
 
-<a href="/user/loginpage">,
+<a href="/user/loginpage">
 <button type="submit"   style="font-size:20px;">
  로그인
+</button>
+
+
+</a>
+
+<a href="/search/commusearch">
+<button type="submit"   style="font-size:20px;">
+<img src="/resources/glyphicons/glyphicons-28-search.png">커뮤니티
 </button>
 
 

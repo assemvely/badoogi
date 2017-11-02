@@ -12,4 +12,5 @@ public interface CommunityService {
 	public CommunityVo Detail(CommunityVo commuvo)throws Exception;
 	public void Changeprivate(CommunityVo commuvo)throws Exception;
 	public List<CommunityVo> Personallist(String email)throws Exception;
+
 }

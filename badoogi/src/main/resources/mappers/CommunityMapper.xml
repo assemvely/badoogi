@@ -72,4 +72,5 @@
 	<update id="Changeprivate">
 	  UPDATE COMMUNITYTB SET PRIVATE=#{privateor} WHERE COMMUNITYBNO=#{communitybno}
 	</update>
+	
 	</mapper>

@@ -17,7 +17,7 @@ margin-bottom:80px;
 }
 
 .btn{
-width:775px;
+width:100px;
 height:60px;
 background-color:#FACC2E;
 border:1x solid #FACC2E;
@@ -88,24 +88,33 @@ input.cmn-toggle-round:checked + label:after {
 <title>Insert title here</title>
 <script type="text/javascript">
 $(document).ready(function(){
-
+	
 	getlist();
+	
+	$("#btn").on("click",function(){
+	
+		getlist();
+	});
 
 });
 
 function getlist(){
 	
+	var keyword=$('#keyword').val();
+	alert(keyword);
 	$.ajax({
 		type:'get',
-		url:'/community/getlist',
-		data:'email='+$('#login').val(),
+		url:'/search/commulistsearch',
+		data:'email='+$('#login').val()+'&keyword='+keyword,
 		
 		success:function(data){
 			
 			var str="";
-			
+			$("#onoff").empty();
 			$(data).each(function(){
-				str+="<a href='/community/personallist?email="+this.email+"'>"+this.nickname+"</a></br>"
+				
+				str+="<p>'"+keyword+"'검색결과 입니다.</p>"
+					+"<a href='/community/personallist?email="+this.email+"'>"+this.nickname+"</a></br>"
 				+"<a href='/community/detail?communitybno="+this.communitybno+"&email="+this.email+"'>"
 				+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.realfilename+"'/>"
 				+"</a>"
@@ -227,7 +236,9 @@ function insertlike(v,y){
 <p style="text-align:center;color:gray;font-size:20px;">list</p>
 <hr/>
 <div id="form_style">
-<input type='hidden' id="login" value="${login.email }">
+<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" style="width:700px;height:55px;" placeholder="#검색어를 입력해주세요"><button id="btn" class="btn">검색</button>
+
+<input type="hidden" id="login" value="${login.email }">
 <div id="onoff"></div>
 </div>
 </div>

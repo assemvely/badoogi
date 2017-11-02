@@ -39,28 +39,34 @@ align:center;
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <script type="text/javascript">
-
+$(documment).ready(function(){
 	
-function on(v,y){
-
-	$.ajax({
-		contentType:'application.json',
+});
+	
+function getcontent(v,y,z){
+	
+	if($(v).prop("checked")){
+		
+		   $('input[type="checkbox"]').not(v).prop("checked", false); //체크풀기
+		$.ajax({
 		type:'get',
-		url:'/manager/delbanner',
+		url:'/manager/readevent_noti',
 		data:'bno='+y,
 		
-		success:function(){
-		
-			alert("삭제합니다");
-			document.getElementById(v).style.display = "none"; 
+		success:function(data){
+			var str="";
 			
-
-			
+				
+				str+="<div>"+data.content+"</div>";
+				
+				document.getElementById(z).innerHTML=str;
 			
 		}
-		
-		
 	});
+	}else{//체크해제!!!
+		document.getElementById(z).innerHTML="";
+	}
+	
 }
 
 
@@ -84,7 +90,7 @@ function on(v,y){
 <c:when test="${managevo.managecode=='event'}">
 <h2>이벤트</h2>
 
-
+<hr/>
 
 <h3> 이벤트번호  ${managevo.bno}</h3>
  <%-- <h2><a href="/category/detail?licensenumber=${catelist.licensenumber}">${catelist.storename}</h2></a>
@@ -92,10 +98,12 @@ function on(v,y){
 
 <h3>[${managevo.startdate}~${managevo.enddate}]</h3>
 <br/>
-<button id="title">타이틀 ${managevo.title}</button>
-<a href="/manager/readposting?bno=${managevo.bno}"> <p>타이틀 ${managevo.title}</p></a>
-<br/>
 
+<input type="checkbox" id="btn" onclick="getcontent(this,${managevo.bno},'readcontent');" readonly><p>타이틀 ${managevo.title}    <img id="img" src="/resources/glyphicons/glyphicons-602-chevron-down.png"></p>
+
+<div id="readcontent"></div>
+<br/>
+<hr/>
 </c:when>
 
 <c:when test="${managevo.managecode=='noti'}">
@@ -108,7 +116,10 @@ function on(v,y){
 <h3>${managevo.writedate}</h3>
 <br/>
 <button id="title">타이틀 ${managevo.title}</button>
-<a href="/manager/readposting?bno=${managevo.bno}"><p>타이틀 ${managevo.title}</p></a>
+
+
+<input type="checkbox" id="btn" onclick="getcontent(this,${managevo.bno},'readcontent');" readonly><p>타이틀 ${managevo.title}    <img id="img" src="/resources/glyphicons/glyphicons-602-chevron-down.png"></p>
+
 <div id="readcontent"></div>
 <br/>
 

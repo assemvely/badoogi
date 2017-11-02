@@ -77,6 +77,8 @@ public class CommunityController {
 		
 		return "/community/communitylist";
 	}
+	
+	//¡¡æ∆ø‰
 	@RequestMapping("/getlist")
 	public @ResponseBody List<CommunityVo> getlist(String email)throws Exception{
 		List<CommunityVo> commu=communityservice.Communitylist(email);
@@ -113,4 +115,6 @@ public class CommunityController {
 		
 		return commuvo;
 	}
+	
+	
 }

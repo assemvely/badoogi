@@ -6,6 +6,10 @@
 	
 	<mapper namespace="kr.ac.badoogi.mapper.ManageMapper">
 	
+	<select  id="Managelist1" resultType="kr.ac.badoogi.vo.ManageVo">
+		  SELECT  TITLE,CONTENT,STARTDATE,ENDDATE,WRITEDATE,MANAGECODE,BNO FROM MANAGETB WHERE MANAGECODE=#{managecode}
+	
+	</select>
 	<insert id="Insertmanage" parameterType="kr.ac.badoogi.vo.ManageVo">
 		INSERT INTO MANAGETB(TITLE,CONTENT,STARTDATE,ENDDATE,MANAGECODE) VALUES(#{title},#{content},#{startdate},#{enddate},#{managecode})
 		   <selectKey keyProperty="bno" resultType="int">

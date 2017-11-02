@@ -29,28 +29,11 @@ border:1x solid #FACC2E;
 </head>
 <body>
 
-<p style="text-align:center;color:gray;font-size:20px;">readmanage</p>
-<hr/>
-<br/>
 <div id="form_style">
-<c:choose>
-<c:when test="${readmanagevo.managecode=='event'}">
-<h3>[${readmanagevo.startdate}~${readmanagevo.enddate}]</h3>
-</c:when>
-<c:when test="${readmanagevo.managecode='noti'}">
-<h3>[${readmanagevo.writedate}]</h3>
-</c:when>
 
 
-</c:choose>
-<h3>${readmanagevo.title }</h3>
-<br/>
-<br/>
-<div>
-${readmanagevo.content}
+
 </div>
-</div>
-
 
 </body>
 </html>

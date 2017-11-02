@@ -49,4 +49,5 @@ public class CommunityDaoImpl implements CommunityDao{
 		// TODO Auto-generated method stub
 		return session.selectList(namespace+".Personallist",email);
 	}
+
 }

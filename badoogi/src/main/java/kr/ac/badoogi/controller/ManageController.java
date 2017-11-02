@@ -158,7 +158,11 @@ List<ManageVo> banner= manageservice.Getbanner();
 		return "/manager/readposting";
 	}
 	
-	
+	@RequestMapping(value="/readevent_noti")
+	public @ResponseBody ManageVo readevent_noti(int bno)throws Exception{
+		ManageVo managevo=manageservice.Readposting(bno);
+		return managevo;
+	}
 	//배너로 옮기기
 	@RequestMapping(value="/banner")
 	public String  banner(int[] chk,String[] managecodearr)throws Exception{
@@ -182,7 +186,7 @@ List<ManageVo> banner= manageservice.Getbanner();
 	}
 	
 	@RequestMapping(value="/getlist")
-	public String getlist(String managecode,Model model)throws Exception{
+	public String Getlist(String managecode,Model model)throws Exception{
 		
 		List<ManageVo> managevo =manageservice.Getlist(managecode);
 		model.addAttribute("managevo",managevo);
