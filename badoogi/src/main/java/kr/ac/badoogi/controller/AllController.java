@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.ac.badoogi.service.ManageService;
 import kr.ac.badoogi.vo.ManageVo;
+import kr.ac.badoogi.vo.Pro_cpimgVo;
 
 @Controller
 @RequestMapping("/all")
@@ -28,6 +29,10 @@ public class AllController {
 
 		List<ManageVo> managevo=manageservice.Getbanner();
 		model.addAttribute("BANNER",managevo);
+		
+		//기획전불러오기
+		List<Pro_cpimgVo> provo=manageservice.Getpro_dispaly();
+		model.addAttribute("PROMOTION",provo);
 		return "homemain";
 	}
 	

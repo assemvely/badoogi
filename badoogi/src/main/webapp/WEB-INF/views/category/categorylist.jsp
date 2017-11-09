@@ -63,8 +63,27 @@ function getAlllist(){
 							+"<p>"+this.address+"</p>"+"<a href='/category/detail?licensenumber="+this.licensenumber+"&email="+$("#login").val()+"'>"
 							+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.frontimg+"'/>"
 							+"</a>"
-							+"<input type='hidden' id='licensenumber' value='"+this.licensenumber+"'>";
+							+"<input type='hidden' id='licensenumber' value='"+this.licensenumber+"'><br/><p>";
 							
+							var hashtag=""+this.hashtag+"";
+							var Arr=hashtag.split(' ');
+						
+							 for(var word in Arr)
+							{
+							  word = Arr[word];
+						
+							   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+							   { 
+								
+							      word= "<a href='/'>"+word+"</a>"; 
+							   }
+							   str += word+' ';
+							   
+							} 
+								/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+							; */
+							str+="</p>";
+					
 							if(this.badoom==1){
 								//바둠에 체크가 되어있으면
 								str+= "<input type='checkbox' id='badoom' onclick='insert(this,"+this.licensenumber+");' checked>"

@@ -22,7 +22,7 @@
 	<insert id="Insertdetail">
 	
 			INSERT INTO ENTERPRISEDETAILTB
-			VALUES(#{contact},#{licensenumber},#{address},#{weekend},#{weekday},#{domain},#{storename},#{parking},#{cp_entnum},#{privateor})
+			VALUES(#{contact},#{licensenumber},#{address},#{weekend},#{weekday},#{domain},#{storename},#{parking},#{cp_entnum},#{privateor},#{hashtag})
 	</insert>
 	
 	<insert id="Insertrule">
@@ -47,7 +47,7 @@
 	</insert>
 	<select id="Catelist" resultType="kr.ac.badoogi.dto.CatelistDto">
 	SELECT contact,enterprisedetailtb.licensenumber as licensenumber,address,weekend,weekday,domain,storename,parking,cp_entnum
-		,private,frontimg,realpath,
+		,private,frontimg,realpath,hashtag,
 		 (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
     	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
          and like_badoomcode='badoom') as badoomnum,
@@ -61,8 +61,9 @@
 		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
         AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
 		AND ENTERPRISEDETAILTB.PRIVATE='N'
+		AND CATEGORY like #{category}
         group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
-		,private,frontimg,realpath
+		,private,frontimg,realpath,hashtag
 	</select>
 	
 	
@@ -89,7 +90,24 @@
 	
 	
 	<select id="Allcatelist" resultType="kr.ac.badoogi.dto.CatelistDto">
-	SELECT * FROM ENTERPRISEDETAILTB JOIN ENTIMGTB WHERE ENTERPRISEDETAILTB.PRIVATE='N'
-	</select>
+	SELECT contact,enterprisedetailtb.licensenumber as licensenumber,address,weekend,weekday,domain,storename,parking,cp_entnum
+		,private,frontimg,realpath,
+		 (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
+    	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+         FROM ENTERPRISEDETAILTB , ENTIMGTB , CATEGORYTB 
+		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
+        AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
+		AND ENTERPRISEDETAILTB.PRIVATE='N'
+        group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
+		,private,frontimg,realpath</select>
 	
+	
+
 	</mapper>

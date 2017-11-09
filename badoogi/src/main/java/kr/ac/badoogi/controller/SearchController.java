@@ -14,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ac.badoogi.dto.CatelistDto;
@@ -40,14 +41,16 @@ public class SearchController {
 		return "/search/commusearch";
 	}
 	@RequestMapping(value="searchpage")
-	public String searchpage(String keyword,Model model)throws Exception{
+	public String searchpage(@RequestParam("keyword") String keyword,Model model)throws Exception{
+		
 		model.addAttribute("dto",keyword);
+		
 		return "/community/searchpage";
 	}
 	@RequestMapping("/commulistsearch")
-	public @ResponseBody List<CommunityVo> Commusearch(SearchDto dto)throws Exception{
-		dto.setKeyword(dto.getKeyword()+"%");
-		
+	public @ResponseBody List<CommunityVo> Commusearch(String keyword,SearchDto dto)throws Exception{
+		dto.setKeyword("%"+dto.getKeyword()+"%");
+	
 		List<CommunityVo> commuvo=searchservice.Commusearch(dto);
 	
 		return commuvo;
@@ -96,15 +99,22 @@ public class SearchController {
 		return "/category/searchcate";
 	}
 	@RequestMapping("/getcatesearch")
-	public String Getcatesearch(String email,String city,LocationDto locadto)throws Exception{
+	public @ResponseBody List<CatelistDto> Getcatesearch(String email,String city,LocationDto locadto)throws Exception{
 		//dto.setCity(mygps);
 		locadto.setEmail(email);
 		locadto.setCity(locadto.getCity()+"%");
 	
 		List<CatelistDto> catedto=searchservice.Getcatesearch(locadto);
 
-		return "category/search";
+		return catedto;
 	}
+	@RequestMapping("/catesearch")
+	public String catesearch(String[] chk,Model model)throws Exception{
+		
+		
+		return "/category/searchcate";
+	}
+
 
 	
 }

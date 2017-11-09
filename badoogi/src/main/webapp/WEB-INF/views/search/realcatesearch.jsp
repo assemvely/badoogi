@@ -17,17 +17,19 @@ margin-bottom:80px;
 }
 
 .btn{
-width:775px;
-height:60px;
-background-color:#FACC2E;
-border:1x solid #FACC2E;
-}
-#searchbtn{
 width:100px;
 height:60px;
 background-color:#FACC2E;
 border:1x solid #FACC2E;
 }
+
+#realbtn{
+width:775px;
+height:60px;
+background-color:#FACC2E;
+border:1x solid #FACC2E;
+}
+
 .img_wrap{
 width:700px;
 margin-top:10px
@@ -44,6 +46,7 @@ align:center;
 <script type="text/javascript">
 $(document).ready(function(){
 	
+	
 	getAlllist();
 });
 function getAlllist(){
@@ -51,21 +54,21 @@ function getAlllist(){
 	$.ajax({
 		
 		type:'get',
-		url:'/search/getcatesearch',
-		data:'city='+$("#mygps").val()+'&email='+$("#login").val(),
+		url:'/category/Alllist',
+		data:'email='+$("#login").val(),
 		
-		
+
 		success:function(data){
-			alert("안떠오");
+			
 			var str="";
 			
 		
 			$(data).each(function(){
-				alert(this.address);
 				
 					//피드가 본인계정이면 
 					
-					str+="<h3>"+this.storename+"</h3><br/>"
+					str+="<input type='checkbox' name='chk' id='chk' value='"+this.licensenumber+"'>"
+						+"<h3>"+this.storename+"</h3><br/>"
 							+"<p>"+this.address+"</p>"+"<a href='/category/detail?licensenumber="+this.licensenumber+"&email="+$("#login").val()+"'>"
 							+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.frontimg+"'/>"
 							+"</a>"
@@ -195,11 +198,18 @@ if($(v).prop("checked")){
 <p style="text-align:center;color:gray;font-size:20px;">list</p>
 <hr/>
 <div id="form_style">
-<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" style="width:700px;height:55px;" placeholder="${mygps.city }검색결과입니다"><button id="searchbtn" class="btn">검색</button>
+<form action="/search/searchpage">
+<input type="text" id="commusearch" name="keyword" style="width:700px;height:55px;" placeholder="#검색어를 입력해주세요"><button class="btn">검색</button>
 
-<input type="hidden" id="mygps" value="${mygps.city}">
+</form>
+<form action="/manager/insertpromotion">
+<input type="hidden" name=realfilename value="${imgvo.realfilename }">
+<input type="hidden" name=realPath value="${imgvo.realPath }">
 <input type="hidden" id="login" value="${login.email }">
+<input type="hidden" name="code" value="promotion">
 <div id="onoff"></div>
+<button type="submit" id="realbtn" >선택완료</button>
+</form>
 </div>
 </div>
 </body>

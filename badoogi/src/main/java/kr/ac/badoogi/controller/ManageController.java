@@ -27,9 +27,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import kr.ac.badoogi.dto.CatelistDto;
+import kr.ac.badoogi.dto.EmailbnoDto;
 import kr.ac.badoogi.service.ManageService;
 import kr.ac.badoogi.vo.ImageVo;
 import kr.ac.badoogi.vo.ManageVo;
+import kr.ac.badoogi.vo.Pro_cpimgVo;
+import kr.ac.badoogi.vo.PromotionVo;
 
 @Controller
 @RequestMapping("/manager")
@@ -194,4 +198,86 @@ List<ManageVo> banner= manageservice.Getbanner();
 		return "/manager/readevent_noti";
 		
 	}
+	
+	@RequestMapping(value="/promotion")
+	public String promotion(ImageVo imgvo,String savePath, @RequestParam MultipartFile imageFile,HttpServletRequest request,Model model)throws Exception{
+		Random random=new Random();
+		//이미지 처리- userimg
+		
+		 MultipartHttpServletRequest imgrequest=(MultipartHttpServletRequest)request;
+			Map<String, MultipartFile> files = ((MultipartRequest) imgrequest).getFileMap();
+			//String savePath =request.getServletContext().getRealPath("/resources/managerimg");  
+			 
+			CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("imageFile");
+			
+			String realfilename=random.nextInt(10000)+cmf.getOriginalFilename();
+			String realPath=savePath+"/"+realfilename;
+	
+			 File file = new File(realPath);
+		
+				// 파일 업로드 처리 완료.
+				cmf.transferTo(file);
+				imgvo.setRealfilename(realfilename);
+				imgvo.setRealPath(realPath);
+				
+				model.addAttribute("imgvo",imgvo);
+				
+				return "/search/realcatesearch";
+		
+	}
+	@RequestMapping("/topromotion")
+	public String topromotion()throws Exception{
+		return "/manager/promotion";
+	}
+	@RequestMapping("/insertpromotion")
+	public String Insertpromotion(String[] chk, String code,String realfilename,String realPath,Pro_cpimgVo imgvo)throws Exception{
+		
+		imgvo.setCode(code);
+		imgvo.setRealfilename(realfilename);
+		imgvo.setRealPath(realPath);
+		
+		manageservice.Insertpromotion(chk,imgvo);
+		return "redirect:/manager/promotionlist";
+	}
+	
+	@RequestMapping("/promotionlist")
+	public String Promotionlist(Model model)throws Exception{
+		String code="promotion";
+		List<Pro_cpimgVo> provo=manageservice.Promotionlist(code);
+		
+		model.addAttribute("provo",provo);
+		return "/manager/promotionlist";
+	}
+	@RequestMapping("/readpromotion")
+	public String Readpromotion(int bno,String email,Model model,EmailbnoDto bnodto)throws Exception{
+		bnodto.setBno(bno);
+		bnodto.setEmail(email);
+		Pro_cpimgVo imgvo=manageservice.Readpromotion(bnodto);
+		
+		model.addAttribute("imgvo",imgvo);
+		
+		return "/manager/readpromotion";
+	}
+	@RequestMapping("/readcatepromotion")
+	public @ResponseBody List<CatelistDto> readcatepromotion(int bno,String email,EmailbnoDto bnodto)throws Exception{
+		bnodto.setBno(bno);
+		bnodto.setEmail(email);
+		List<CatelistDto> dto=manageservice.Readcatepromotion(bnodto);
+		
+		return dto;
+		
+	}
+	
+	@RequestMapping("/promotiondisplay")
+	public String Promotiondisplay(int[] chk) throws Exception{
+		
+		for(int i=0;i<chk.length;i++){
+			 manageservice.Promotiondisplay(chk[i]);
+			
+		}
+		
+		return "redirect:/all/page";
+	}
+	
+	
 }

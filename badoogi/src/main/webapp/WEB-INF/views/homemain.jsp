@@ -25,8 +25,8 @@
 <style>
 #form_style{
 aling:center;
-margin-top:200px;
-margin-left:350px;
+margin-top:100px;
+margin-left:400px;
 margin-bottom:80px;
 margin-right:350px;
 }
@@ -34,8 +34,8 @@ margin-right:350px;
 .btn{
 width:300px;
 height:60px;
-background-color:#FACC2E;
-border:1x solid #FACC2E;
+background-color:white;
+border:1x solid yellow;
 }
 
 .owl-controls{
@@ -91,10 +91,10 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
                   </script>
 </head>
 <body>
-<div id="form_style">
+
 
  <div id="carousel-example-generic" class="carousel slide"
-                     data-ride="carousel" style="margin-top: 48px;">
+                     data-ride="carousel">
  
                      <!-- Indicators -->
                      <ol class="carousel-indicators">
@@ -114,7 +114,7 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
                            <div class="item">
                               <a href="/manager/readposting?bno=${banner.bno}"><img
                                  src="/user/showimg?realPath=${banner.realPath}&realfilename=${banner.realfilename}"
-                                 alt="no images"></a>
+                                 alt="no images" style="width:2000px;hight:450px;"></a>
                                <input type="hidden" name="managecode" value="${banner.managecode}">  
                            </div>
  
@@ -142,8 +142,8 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
                      <!-- 끝 Controls 화살표 표시 창 끝-->
                   </div>
 
-
-<a href="/category/allcatelist">
+<div id="form_style">
+<a href="/category/categorylist?category=All">
 <button type="submit" name="btn"  class="btn" style="font-size:20px;">
 전체보기
 </button></a>
@@ -179,8 +179,27 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
 
 <br/>
 <br/>
+<br/>
 
-<a href="/manager/managepage">
+<br/>
+
+<bR/>
+<hr/><h3>기획전</h3> <a href="/manager/promotionlist">
+<button type="submit"   style="font-size:20px;">
+<img src="/resources/glyphicons/glyphicons-28-search.png">기획전전체보기
+</button>
+
+
+</a><hr/><br/>
+<c:forEach items="${PROMOTION}"  var="provo">
+<a href="/manager/readpromotion?bno=${provo.bno }">
+ <img  src="/user/showimg?realPath=${provo.realPath}&realfilename=${provo.realfilename}"
+                                 alt="no images">
+                                 </a>
+ </c:forEach>
+ 
+ 
+ <a href="/manager/managepage">
 <button type="submit"   style="font-size:20px;">
 배너/이벤트/공지쓰기
 </button>
@@ -250,6 +269,20 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
 
 
 </a>
+
+
+<a href="/manager/topromotion">
+<button type="submit"   style="font-size:20px;">
+기획전
+</button>
+
+
+</a>
+
+<a href="/manager/promotionlist">
+<button type="submit"   style="font-size:20px;">
+<img src="/resources/glyphicons/glyphicons-28-search.png">기획전전체보기
+</button>
 
 
 </a>

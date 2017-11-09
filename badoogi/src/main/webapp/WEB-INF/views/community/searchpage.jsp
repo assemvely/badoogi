@@ -101,25 +101,42 @@ $(document).ready(function(){
 function getlist(){
 	
 	var keyword=$('#keyword').val();
-	alert(keyword);
+
 	$.ajax({
 		type:'get',
 		url:'/search/commulistsearch',
 		data:'email='+$('#login').val()+'&keyword='+keyword,
-		
+	
 		success:function(data){
 			
-			var str="";
+			var str="<p>'"+keyword+"'검색결과 입니다.</p>";
 			$("#onoff").empty();
 			$(data).each(function(){
 				
-				str+="<p>'"+keyword+"'검색결과 입니다.</p>"
-					+"<a href='/community/personallist?email="+this.email+"'>"+this.nickname+"</a></br>"
+				str+="<a href='/community/personallist?email="+this.email+"'>"+this.nickname+"</a></br>"
 				+"<a href='/community/detail?communitybno="+this.communitybno+"&email="+this.email+"'>"
 				+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.realfilename+"'/>"
-				+"</a>"
-				+"<p>"+this.comment+"</p>";
+				+"</a><br/><p>";
+				
+				var hashtag=""+this.comment+"";
+				var Arr=hashtag.split(' ');
+				
+				 for(var word in Arr)
+				{
+				  word = Arr[word];
 			
+				   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+				   { 
+					
+					
+				      word= "<a href='/search/searchpage?keyword="+word.replace("#","")+"'>"+word+"</a>"; 
+				   }
+				   str += word+' ';
+				   
+				} 
+					/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+				; */
+				str+="</p>";
 			if(this.badoom==1){
 				//바둠에 체크가 되어있으면
 				str+= "<input type='checkbox' id='badoom' onclick='insert(this,"+this.communitybno+");' checked>"

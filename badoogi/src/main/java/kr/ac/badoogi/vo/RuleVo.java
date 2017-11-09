@@ -6,6 +6,8 @@ public class RuleVo {
 	String guide;
 	String precaution;
 	String licensenumber;
+
+	
 	
 	
 	public String getLicensenumber() {

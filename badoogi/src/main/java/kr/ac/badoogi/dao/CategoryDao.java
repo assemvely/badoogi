@@ -18,7 +18,7 @@ public interface CategoryDao {
 	public void Insertfacility(CategoryVo categoryvo)throws Exception;
 	public void Insertentimg(ImageVo imgvo)throws Exception;
 	public  List<CatelistDto>  Catelist(CatelistDto catelist)throws Exception;
-	public List<CatelistDto> Allcatelist()throws Exception;
+	public List<CatelistDto> Allcatelist(String email)throws Exception;
 	public EntdetailVo Entdetail(EntdetailVo entdetailvo)throws Exception;
 	public List<CategoryVo> Facility(String licensenumber)throws Exception;
 }

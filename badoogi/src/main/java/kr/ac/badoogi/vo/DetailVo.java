@@ -12,9 +12,17 @@ public class DetailVo {
 	String cp_entnum;
 	String privateor;
 	String licensenumber;
+	String hashtag;
 	
 	
 	
+	
+	public String getHashtag() {
+		return hashtag;
+	}
+	public void setHashtag(String hashtag) {
+		this.hashtag = hashtag;
+	}
 	public String getLicensenumber() {
 		return licensenumber;
 	}

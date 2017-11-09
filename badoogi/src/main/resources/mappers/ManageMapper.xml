@@ -25,6 +25,26 @@
 	
 		INSERT INTO BANNERTB VALUES(#{managecode},#{bno})
 	</insert>
+	
+		<insert id="Insertproimg" parameterType="kr.ac.badoogi.vo.Pro_cpimgVo">
+		 INSERT INTO PRO_CPIMGTB(CODE,REALFILENAME,REALPATH) VALUES (#{code},#{realfilename},#{realPath})
+		   <selectKey keyProperty="bno" resultType="int">
+  	      		SELECT LAST_INSERT_ID()
+   		   </selectKey>
+	</insert>
+	<insert id="Insertpromotion">
+		INSERT INTO PROMOTION(PROMOTIONBNO,LICENSENUMBER) VALUES(#{bno},#{licensenumber})
+	</insert>
+	
+	<insert id="Promotiondisplay">
+		INSERT INTO PRO_DISPLAYTB(PROMOTIONBNO) VALUES(#{bno})
+	</insert>
+	<select id="Getpro_dispaly" resultType="kr.ac.badoogi.vo.Pro_cpimgVo">
+		
+		SELECT pro_cpimgtb.bno as bno,realfilename,realpath 
+		FROM pro_displaytb,pro_cpimgtb WHERE pro_cpimgtb.bno=pro_displaytb.promotionbno
+		
+	</select>
 	<select  id="Managelist" resultType="kr.ac.badoogi.vo.ManageVo">
 		  SELECT
         CASE MANAGECODE
@@ -50,8 +70,33 @@
 		WHERE BANNERTB.BNO=MANAGETB.BNO AND MANAGETB.BNO=MANAGEIMGTB.BNO;
 	
 	</select>
+	<select id="Promotionlist" resultType="kr.ac.badoogi.vo.Pro_cpimgVo">
+		SELECT * FROM PRO_CPIMGTB WHERE CODE=#{code}
+	</select>
 
+	<select id="Readpromotion" resultType="kr.ac.badoogi.dto.CatelistDto">
+	     SELECT contact,enterprisedetailtb.licensenumber as licensenumber,address,weekend,weekday,domain,storename,parking,cp_entnum
+		,private,frontimg,entimgtb.realpath as realpath,
+		 (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
+    	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+         FROM ENTERPRISEDETAILTB , ENTIMGTB , CATEGORYTB,promotion 
+		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
+        AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
+		and enterprisedetailtb.licensenumber = (select licensenumber from promotion where promotionbno=#{bno})
+        group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
+		,private,frontimg,realpath
 	
+	</select>
+	<select id="promotionimg" resultType="kr.ac.badoogi.vo.Pro_cpimgVo">
+		SELECT * FROM PRO_CPIMGTB WHERE BNO=#{bno}
+	</select>
 	<delete id="Delbanner">
 		DELETE FROM BANNERTB WHERE BNO=#{bno} 
 	

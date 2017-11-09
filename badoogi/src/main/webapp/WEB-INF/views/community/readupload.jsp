@@ -91,6 +91,8 @@ input.cmn-toggle-round:checked + label:after {
 $(document).ready(function(){
 
 	getreplylist();
+	hashtag();
+	
 	
 	var privateor=$("#private").val();
 
@@ -219,6 +221,34 @@ function getreplylist(){
 	});
 	
 }
+
+function hashtag(){
+	
+	var hashtag=document.getElementById("hashtag").innerHTML;
+
+	var Arr=hashtag.split(' ');
+	var str="";
+	
+	 for(var word in Arr)
+	{
+		
+	  word = Arr[word];
+	
+	   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+	   { 
+		
+
+		      word= "<a href='/search/searchpage?keyword="+word.replace("#","")+"'>"+word+"</a>"; 
+	
+	   }
+	   str += word+' ';
+	   
+	} 
+		/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+	; */
+	
+	document.getElementById("hashtag").innerHTML = str;
+}
 </script>
 </head>
 
@@ -247,6 +277,9 @@ function getreplylist(){
 <input type="hidden" id="bno" value="${commuvo.communitybno}">
 	<img class="img_wrap" src="/user/showimg?realPath=${commuvo.realPath}&realfilename=${commuvo.realfilename}">
 	<br/>
+	
+
+	<div id="hashtag">${commuvo.comment}</div>
 	<c:choose>
 	<c:when test="${commuvo.badoom==1}">
 	<input type="checkbox" id="badoom" onclike="insert(this,${commuvo.communitybno });" checked>
@@ -271,7 +304,7 @@ function getreplylist(){
 	
 	<button type="submit" style="font-size:20px;">댓글 ${commuvo.rownum }</button>
 	<hr/>
-<p>${commuvo.comment}</p>
+
 
 <input type="hidden" id="email" value="${login.email }">
 <hr/>

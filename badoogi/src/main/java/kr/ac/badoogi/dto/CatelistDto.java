@@ -9,6 +9,7 @@ public class CatelistDto {
 	String licensenumber;
 	String realPath;
 	String frontimg;
+	String hashtag;
 	int rownum;
 	int badoom;
 	int badoomnum;
@@ -16,6 +17,12 @@ public class CatelistDto {
 	int likenum;
 	
 	
+	public String getHashtag() {
+		return hashtag;
+	}
+	public void setHashtag(String hashtag) {
+		this.hashtag = hashtag;
+	}
 	public String getEmail() {
 		return email;
 	}

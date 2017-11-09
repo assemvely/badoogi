@@ -13,7 +13,7 @@ public class EntdetailVo {
 	String comment;
 	String guide;
 	String precaution;
-	
+	String hashtag;
 	String frontimg;
 	String realPath;
 	String email;
@@ -24,6 +24,14 @@ public class EntdetailVo {
 	int badoomnum;
 	int likenum;
 	
+	
+	
+	public String getHashtag() {
+		return hashtag;
+	}
+	public void setHashtag(String hashtag) {
+		this.hashtag = hashtag;
+	}
 	public String getEmail() {
 		return email;
 	}

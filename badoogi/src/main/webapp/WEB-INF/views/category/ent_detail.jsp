@@ -39,7 +39,7 @@ align:center;
 <script type="text/javascript">
 $(document).ready(function(){
 	getreplylist();
-	
+	hashtag();
 	
 	$('#replyAddBtn').on("click",function(){
 		
@@ -192,6 +192,32 @@ if($(v).prop("checked")){
 }
 }
 }
+
+function hashtag(){
+	
+	var hashtag=document.getElementById("hashtag").innerHTML;
+
+	var Arr=hashtag.split(' ');
+	var str="";
+	
+	 for(var word in Arr)
+	{
+		
+	  word = Arr[word];
+	
+	   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+	   { 
+		
+	      word= "<a href='/'>"+word+"</a>"; 
+	   }
+	   str += word+' ';
+	   
+	} 
+		/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+	; */
+	
+	document.getElementById("hashtag").innerHTML = str;
+}
 </script>
 </head>
 <body>
@@ -260,6 +286,8 @@ if($(v).prop("checked")){
 <input type="hidden" id="licensenumber" value="${DETAIL.licensenumber}">
 <hr/>
 
+<div id="hashtag">${DETAIL.hashtag }</div>
+<hr/>
 <div id="replies"></div>
 
 

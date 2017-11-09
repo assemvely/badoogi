@@ -22,12 +22,6 @@ height:60px;
 background-color:#FACC2E;
 border:1x solid #FACC2E;
 }
-#searchbtn{
-width:100px;
-height:60px;
-background-color:#FACC2E;
-border:1x solid #FACC2E;
-}
 .img_wrap{
 width:700px;
 margin-top:10px
@@ -38,11 +32,64 @@ margin-top:10px
 max-width:100%;
 align:center;
 }
+
+
+.cmn-toggle {
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.cmn-toggle + label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+input.cmn-toggle-round + label {
+  padding: 2px;
+  width: 100px;
+  height: 20px;
+  background-color: #dddddd;
+  border-radius: 60px;
+}
+input.cmn-toggle-round + label:before,
+input.cmn-toggle-round + label:after {
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  content: "";
+}
+input.cmn-toggle-round + label:before {
+  right: 1px;
+  background-color: #FF0080;
+  border-radius: 60px;
+  transition: background 0.4s;
+}
+input.cmn-toggle-round + label:after {
+  width: 40px;
+
+  background-color: #fff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: margin 0.4s;
+}
+input.cmn-toggle-round:checked + label:before {
+  background-color:#f1f1f1;
+}
+input.cmn-toggle-round:checked + label:after {
+  margin-left: 60px;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <script type="text/javascript">
+
 $(document).ready(function(){
+	
 	
 	getAlllist();
 });
@@ -51,18 +98,17 @@ function getAlllist(){
 	$.ajax({
 		
 		type:'get',
-		url:'/search/getcatesearch',
-		data:'city='+$("#mygps").val()+'&email='+$("#login").val(),
+		url:'/manager/readcatepromotion',
+		data:'bno='+$("#bno").val()+'&email='+$("#email").val(),
 		
-		
+
 		success:function(data){
-			alert("안떠오");
+		
 			var str="";
 			
 		
 			$(data).each(function(){
-				alert(this.address);
-				
+			
 					//피드가 본인계정이면 
 					
 					str+="<h3>"+this.storename+"</h3><br/>"
@@ -187,18 +233,21 @@ if($(v).prop("checked")){
 }
 }
 }
+
 </script>
 </head>
 
 <body>
 <div class="form-group" margin-top: 5px; ">
-<p style="text-align:center;color:gray;font-size:20px;">list</p>
+<p style="text-align:center;color:gray;font-size:20px;">기획전 </p>
 <hr/>
 <div id="form_style">
-<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" style="width:700px;height:55px;" placeholder="${mygps.city }검색결과입니다"><button id="searchbtn" class="btn">검색</button>
 
-<input type="hidden" id="mygps" value="${mygps.city}">
-<input type="hidden" id="login" value="${login.email }">
+<input type="hidden" id="email" name="email" value="${login.email }">
+<input type="hidden" id="bno" name="bno" value="${imgvo.bno }">
+
+ <img  src="/user/showimg?realPath=${imgvo.realPath}&realfilename=${imgvo.realfilename}" alt="no images">
+                <br/>           
 <div id="onoff"></div>
 </div>
 </div>

@@ -117,8 +117,29 @@ function getAllList(){
 					str+="<a href='/community/personallist?email="+email+"'>"+this.nickname+"</a><br/>"
 							+"<a href='/community/detail?communitybno="+this.communitybno+"&email="+this.email+"'>"
 							+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.realfilename+"'/>"
-							+"</a>"
-							+"<p>"+this.comment+"</p>";
+							+"</a><br/>";
+							
+							
+							var hashtag=""+this.comment+"";
+							var Arr=hashtag.split(' ');
+						
+							 for(var word in Arr)
+							{
+							  word = Arr[word];
+							
+							   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+							   { 
+								
+
+								      word= "<a href='/search/searchpage?keyword="+word.replace("#","")+"'>"+word+"</a>"; 
+							
+							   }
+							   str += word+' ';
+							   
+							} 
+								/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+							; */
+							str+="</p>";
 							
 							if(this.privateor=="Y"){
 								//비공개면

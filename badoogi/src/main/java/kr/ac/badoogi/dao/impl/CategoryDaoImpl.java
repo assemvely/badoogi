@@ -74,9 +74,9 @@ public class CategoryDaoImpl implements CategoryDao{
 	}
 
 	@Override
-	public List<CatelistDto> Allcatelist() throws Exception {
+	public List<CatelistDto> Allcatelist(String email) throws Exception {
 		// TODO Auto-generated method stub
-		return session.selectList(namespace+".Allcatelist");
+		return session.selectList(namespace+".Allcatelist",email);
 	}
 
 	@Override

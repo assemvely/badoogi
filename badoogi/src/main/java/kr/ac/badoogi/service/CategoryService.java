@@ -11,7 +11,7 @@ public interface CategoryService {
 
 	public void Insertent(EntVo entvo)throws Exception;
 	public  List<CatelistDto>  Catelist(CatelistDto catelist)throws Exception;
-	public List<CatelistDto> Allcatelist()throws Exception;
+	public List<CatelistDto> Allcatelist(String email)throws Exception;
 	public EntVo Entdetail(String licensenumber,String email,EntVo entvo)throws Exception;
 	
 }

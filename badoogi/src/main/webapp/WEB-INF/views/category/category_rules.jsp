@@ -183,7 +183,7 @@ function Imgfileselect(e){
 	<img id="img">
 </div>
 <input type="hidden" name="savePath" value="C://badoogi//ENTIMG/">
-
+<textarea name="hashtag" rows=10px  placeholder="hashtag..." cols=100px wrap="hard" ></textarea>
 
 
 <h3>게시물 공개/비공개 </h3>

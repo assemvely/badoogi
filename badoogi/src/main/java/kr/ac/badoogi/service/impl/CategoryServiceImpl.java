@@ -83,9 +83,9 @@ public class CategoryServiceImpl implements CategoryService{
 
 
 	@Override
-	public List<CatelistDto> Allcatelist() throws Exception {
+	public List<CatelistDto> Allcatelist(String email) throws Exception {
 		// TODO Auto-generated method stub
-		return categorydao.Allcatelist();
+		return categorydao.Allcatelist(email);
 	}
 
 

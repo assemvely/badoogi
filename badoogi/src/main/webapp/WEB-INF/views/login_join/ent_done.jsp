@@ -15,6 +15,6 @@
 <p>빠른시일내로 메일 드릴게요!</p>
 </div>
 
-<a href="/user/page">home으로</a>
+<a href="/all/page">home으로</a>
 </body>
 </html>

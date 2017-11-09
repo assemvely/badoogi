@@ -14,6 +14,7 @@ public class CommunityVo {
 	String realfilename;
 	String realPath;
 	String nickname;
+
 	int rownum;
 	int badoom;
 	int badoomnum;
@@ -21,7 +22,7 @@ public class CommunityVo {
 	int likenum;
 	
 	
-	
+
 	public int getLikee() {
 		return likee;
 	}

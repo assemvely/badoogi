@@ -92,8 +92,9 @@ public class CategoryController {
 		
 		//detail(comment)등을 가지고옴
 			String privateor=detailvo.getPrivateor();
+			String hashtag=detailvo.getHashtag();
 			detailvo=(DetailVo) session.getAttribute("detailvo");
-			
+			detailvo.setHashtag(hashtag);
 			if(privateor==null||!privateor.equals("Y")){
 				//비공개가아니면
 				detailvo.setPrivateor("N");
@@ -117,11 +118,18 @@ public class CategoryController {
 		
 		categoryservice.Insertent(entvo);
 		
-		return "/all/page";
+		return "redirect:/all/page";
 	}
 	
 	@RequestMapping(value="/categorylist")
 	public String categorylist(CatelistDto catelist,Model model)throws Exception{
+		String all=catelist.getCategory();
+		if(all.equals("All")){
+				catelist.setCategory("%%");
+			}
+			System.out.println("어어"+catelist.getCategory());
+		
+		
 				model.addAttribute("catelist",catelist);												//목록으로 
 		return "/category/categorylist";
 	}
@@ -147,13 +155,13 @@ public class CategoryController {
 	
 	
 	
-	@RequestMapping(value="/allcatelist")
+	/*@RequestMapping(value="/allcatelist")
 	public String allcatelist(Model model)throws Exception{
 												//모든 카테고리 보기
 		List<CatelistDto> cate=categoryservice.Allcatelist();
 		model.addAttribute("CATELIST",cate);
 		return "/category/categorylist";
-	}
+	}*/
 	
 	@RequestMapping(value="/jusoPopup")
 	public String jusoPopup( HttpSession session, Model model) throws Exception
@@ -161,5 +169,12 @@ public class CategoryController {
 	
 		return "/popup/jusoPopup";
 		
+	}
+	
+	@RequestMapping(value="/Alllist")
+	public @ResponseBody List<CatelistDto> Allcatelist(String email)throws Exception{
+		
+		List<CatelistDto> cate=categoryservice.Allcatelist(email);
+		return cate;
 	}
 }
