@@ -32,5 +32,10 @@ public class SearchServiceImpl implements SearchService{
 		// TODO Auto-generated method stub
 		return searchdao.Getcatesearch(locadto);
 	}
+	@Override
+	public List<CatelistDto> Getsearch(SearchDto dto) throws Exception {
+		// TODO Auto-generated method stub
+		return searchdao.Getsearch(dto);
+	}
 
 }

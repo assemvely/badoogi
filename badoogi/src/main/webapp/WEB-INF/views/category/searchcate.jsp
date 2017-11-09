@@ -42,73 +42,6 @@ align:center;
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <script type="text/javascript">
-$(document).ready(function(){
-	
-	getAlllist();
-});
-function getAlllist(){
-	
-	$.ajax({
-		
-		type:'get',
-		url:'/search/getcatesearch',
-		data:'city='+$("#mygps").val()+'&email='+$("#login").val(),
-		
-		
-		success:function(data){
-			alert("안떠오");
-			var str="";
-			
-		
-			$(data).each(function(){
-				alert(this.address);
-				
-					//피드가 본인계정이면 
-					
-					str+="<h3>"+this.storename+"</h3><br/>"
-							+"<p>"+this.address+"</p>"+"<a href='/category/detail?licensenumber="+this.licensenumber+"&email="+$("#login").val()+"'>"
-							+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.frontimg+"'/>"
-							+"</a>"
-							+"<input type='hidden' id='licensenumber' value='"+this.licensenumber+"'>";
-							
-							if(this.badoom==1){
-								//바둠에 체크가 되어있으면
-								str+= "<input type='checkbox' id='badoom' onclick='insert(this,"+this.licensenumber+");' checked>"
-										+"바둠"+this.badoomnum+"";
-								
-							}else{
-								str+= "<input type='checkbox' id='badoom' onclick='insert(this,"+this.licensenumber+");'>"
-								+"바둠"+this.badoomnum;
-							}
-							
-							if(this.likee==1){
-								
-								str+= "<input type='checkbox' id='like' onclick='insertlike(this,"+this.licensenumber+");' checked>"
-								+"좋아요"+this.likenum;
-					
-							}else{
-								str+= "<input type='checkbox' id='like' onclick='insertlike(this,"+this.licensenumber+");'>"
-								+"좋아요"+this.likenum;
-					
-								
-							}
-							
-							str+="<button type='submit' style='font-size:20px;'>"
-								+"댓글"+this.rownum+"</button>"
-								+"<hr/>";
-							
-				
-
-				
-			});
-			
-			$("#onoff").html(str);
-		}
-
-		
-	});
-	
-}
 
 
 
@@ -195,12 +128,52 @@ if($(v).prop("checked")){
 <p style="text-align:center;color:gray;font-size:20px;">list</p>
 <hr/>
 <div id="form_style">
-<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" style="width:700px;height:55px;" placeholder="${mygps.city }검색결과입니다"><button id="searchbtn" class="btn">검색</button>
-
-<input type="hidden" id="mygps" value="${mygps.city}">
+<form action="/search/catehash">
+<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" style="width:700px;height:55px;" placeholder="${keyword}검색결과입니다"><button id="searchbtn" class="btn">검색</button>
+<input type="hidden" id="email" value="${login.email }">
+</form>
+<input type="hidden" id="mygps" value="${keyword}">
 <input type="hidden" id="login" value="${login.email }">
-<div id="onoff"></div>
-</div>
+
+<c:forEach items="${catedto }" var="catedto">
+
+
+<h3>${catedto.storename}</h3><br/>
+<p>${catedto.address}</p>
+<a href="/category/detail?licensenumber=${catedto.licensenumber }&email=${login.email}">
+<img class="img_wrap" src="/user/showimg?realPath=${catedto.realPath}&realfilename=${frontimg}"/>
+</a>
+<input type="hidden" id="licensenumber" value="${catedto.licensenumber}">
+		
+		
+
+	<c:choose>
+	<c:when test="${catedto.badoom==1}">
+	<input type="checkbox" id="badoom" onclick="insert(this,${catedto.licensenumber});" checked>
+	<h3>바둠  ${catedto.badoomnum}</h3>
+	</c:when>
+	<c:otherwise>
+	<input type="checkbox" id="badoom" onclick="insert(this,${catedto.licensenumber}});">
+	<h3>바둠  ${catedto.badoomnum}</h3>
+	</c:otherwise>
+	</c:choose>
+	
+	<c:choose>
+	<c:when test="${catedto.likee==1}">
+	<input type="checkbox" id="like" onclike="insertlike(this,${catedto.licensenumber});" checked>
+	<h3>좋아요  ${catedto.likenum}</h3>
+	</c:when>
+	<c:otherwise>
+	<input type="checkbox" id="like" onclike="insertlike(this,${catedto.licensenumber});">
+	<h3>좋아요  ${catedto.likenum}</h3>
+	</c:otherwise>
+	</c:choose>
+	
+	<button type="submit" style="font-size:20px;">댓글 ${catedto.rownum }</button>
+	<hr/>
+		
+	
+</c:forEach>			
 </div>
 </body>
 </html>

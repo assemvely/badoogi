@@ -269,11 +269,14 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
 </a>
 
 <a href="/manager/promotionlist">
-<button type="submit"   style="font-size:20px;">
-<img src="/resources/glyphicons/glyphicons-28-search.png">기획전전체보기
+<button type="submit"   style="font-size:20px;">기획전전체보기
 </button>
+</a>
 
-
+<a href="/search/catesearch">
+<button type="submit"   style="font-size:20px;">
+<img src="/resources/glyphicons/glyphicons-28-search.png">검색
+</button>
 </a>
 </div>
 </body>

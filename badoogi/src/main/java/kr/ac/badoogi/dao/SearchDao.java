@@ -12,4 +12,5 @@ public interface SearchDao {
 
 	public List<CommunityVo> Commusearch(SearchDto dto)throws Exception;
 	public List<CatelistDto> Getcatesearch(LocationDto locadto)throws Exception;
+	public List<CatelistDto> Getsearch(SearchDto dto)throws Exception;
 }

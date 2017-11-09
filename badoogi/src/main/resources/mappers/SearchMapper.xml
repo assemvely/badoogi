@@ -25,22 +25,44 @@
     
     <select id="Getcatesearch" resultType="kr.ac.badoogi.dto.CatelistDto">
        SELECT contact,enterprisedetailtb.licensenumber as licensenumber,address,weekend,weekday,domain,storename,parking,cp_entnum
-		,private,frontimg,realpath,
+		,private,frontimg,realpath,hashtag,
 		 (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
     	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
          and like_badoomcode='badoom') as badoomnum,
          (select  count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber
-         and like_badoomtb.email='' and like_badoomcode='badoom') as badoom,
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
          (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber 
          and like_badoomcode='like') as likenum,
          (select count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber
-         and like_badoomtb.email='' and like_badoomcode='like')as likee
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
          FROM ENTERPRISEDETAILTB , ENTIMGTB , CATEGORYTB 
 		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
         AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
 		AND ENTERPRISEDETAILTB.PRIVATE='N'
-		and ADDRESS LIKE '경기도 성남시%'
+		and ADDRESS LIKE #{city}
         group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
-		,private,frontimg,realpath
+		,private,frontimg,realpath,hashtag
+    </select>
+    
+    <select id="Getsearch" resultType="kr.ac.badoogi.dto.CatelistDto">
+       SELECT contact,enterprisedetailtb.licensenumber as licensenumber,address,weekend,weekday,domain,storename,parking,cp_entnum
+		,private,frontimg,realpath,hashtag,
+		 (select count(licensenumber) from replytb where replytb.licensenumber=ENTERPRISEDETAILTB.licensenumber)as rownum,
+    	   (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='badoom') as badoomnum,
+         (select  count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB.licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='badoom') as badoom,
+         (select count(licensenumber) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber 
+         and like_badoomcode='like') as likenum,
+         (select count(like_badoomtb.email) from like_badoomtb where ENTERPRISEDETAILTB .licensenumber=like_badoomtb.licensenumber
+         and like_badoomtb.email=#{email} and like_badoomcode='like')as likee
+         FROM ENTERPRISEDETAILTB , ENTIMGTB , CATEGORYTB 
+		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
+        AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
+		AND ENTERPRISEDETAILTB.PRIVATE='N'
+         and (storename like #{keyword} or hashtag like #{keyword})
+		 group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
+		,private,frontimg,realpath,hashtag;
+    
     </select>
 	</mapper>

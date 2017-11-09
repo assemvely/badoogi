@@ -31,11 +31,13 @@ public class SearchDaoImpl implements SearchDao{
 	@Override
 	public List<CatelistDto> Getcatesearch(LocationDto locadto) throws Exception {
 		// TODO Auto-generated method stub
+		return session.selectList(namespace+".Getcatesearch",locadto); 
+	}
 
-		List<CatelistDto> dto=session.selectList(namespace+".Getcatesearch",locadto);
-	
-		
-		return dto; 
+	@Override
+	public List<CatelistDto> Getsearch(SearchDto dto) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".Getsearch",dto);
 	}
 	
 	

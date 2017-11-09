@@ -117,7 +117,7 @@ function getAllList(){
 					str+="<a href='/community/personallist?email="+email+"'>"+this.nickname+"</a><br/>"
 							+"<a href='/community/detail?communitybno="+this.communitybno+"&email="+this.email+"'>"
 							+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.realfilename+"'/>"
-							+"</a><br/>";
+							+"</a><br/><p>";
 							
 							
 							var hashtag=""+this.comment+"";
@@ -183,8 +183,29 @@ function getAllList(){
 						str+="<a href='/community/personallist?email="+email+"'>"+this.nickname+"</a></br>"
 						+"<a href='/community/detail?communitybno="+this.communitybno+"'>"
 						+"<img class='img_wrap' src='/user/showimg?realPath="+this.realPath+"&realfilename="+this.realfilename+"'/>"
-						+"</a>"
-						+"<p>"+this.comment+"</p>"
+						+"</a><br/><p>";
+						
+						
+						var hashtag=""+this.comment+"";
+						var Arr=hashtag.split(' ');
+					
+						 for(var word in Arr)
+						{
+						  word = Arr[word];
+						
+						   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+						   { 
+							
+
+							      word= "<a href='/search/searchpage?keyword="+word.replace("#","")+"&email="+login+"'>"+word+"</a>"; 
+						
+						   }
+						   str += word+' ';
+						   
+						} 
+							/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+						; */
+						str+="</p>";
 						if(this.badoom==1){
 							//바둠에 체크가 되어있으면
 							str+= "<input type='checkbox' id='badoom' onclick='insert(this,"+this.communitybno+");' checked>"

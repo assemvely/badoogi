@@ -43,6 +43,7 @@ $(document).ready(function(){
 });
 function getAlllist(){
 	
+	var login=$("#login").val();
 	$.ajax({
 		
 		type:'get',
@@ -75,8 +76,8 @@ function getAlllist(){
 							   if(word.indexOf('#') == 0) // # 문자를 찾는다.
 							   { 
 								
-							      word= "<a href='/'>"+word+"</a>"; 
-							   }
+								   word= "<a href='/search/catehash?keyword="+word.replace("#","")+"&email="+login+"'>"+word+"</a>"; 
+									 }
 							   str += word+' ';
 							   
 							} 

@@ -50,6 +50,15 @@ public class SearchController {
 		model.addAttribute("commuvo",commuvo);
 		return "/community/commulist";
 	}
+	
+	@RequestMapping(value="catehash")
+	public String catehast(String email,String keyword,SearchDto dto,Model model)throws Exception{
+		
+		model.addAttribute("keyword",keyword+"검색결과입니다");
+		List<CatelistDto> catedto=searchservice.Getsearch(dto);
+		model.addAttribute("catedto",catedto);
+		return "/category/searchcate";
+	}
 /*	@RequestMapping("/commulistsearch")
 	public @ResponseBody List<CommunityVo> Commusearch(String keyword,SearchDto dto)throws Exception{
 		dto.setKeyword("%"+dto.getKeyword()+"%");
@@ -69,7 +78,7 @@ public class SearchController {
 
 	
 	@RequestMapping("/mygps")
-	public String mygps(LocationDto dto,Model model)throws Exception{
+	public String mygps(String email,String city,LocationDto locadto,Model model)throws Exception{
 
 		JSONParser parser = new JSONParser();
 
@@ -89,8 +98,6 @@ public class SearchController {
             JSONObject br1 = (JSONObject)parser.parse(br);
     
 
-             String city = (String)br1.get("city");
-             String region=(String)br1.get("region");
              Double latitude = (Double)br1.get("latitude");
              Double longitude = (Double)br1.get("longitude");
              
@@ -98,26 +105,30 @@ public class SearchController {
              String gps1=gps.getAddress().replaceAll("[\\S]+(구|군)\\s[\\S]+(면|동).*","");
              String realgps=gps1.replaceAll("[\\S]+(국)\\s","");
      		
-     		dto.setCity(realgps);
      		
-     		model.addAttribute("mygps",dto);
+     		locadto.setEmail(email);
+    		locadto.setCity(locadto.getCity()+"%");
+    		
+    		List<CatelistDto> catedto=searchservice.Getcatesearch(locadto);
+    		model.addAttribute("keyword",realgps);
+     		model.addAttribute("catedto",catedto);
 		return "/category/searchcate";
 	}
-	@RequestMapping("/getcatesearch")
+/*	@RequestMapping("/getcatesearch")
 	public @ResponseBody List<CatelistDto> Getcatesearch(String email,String city,LocationDto locadto)throws Exception{
 		//dto.setCity(mygps);
 		locadto.setEmail(email);
 		locadto.setCity(locadto.getCity()+"%");
-	
+		
 		List<CatelistDto> catedto=searchservice.Getcatesearch(locadto);
-
+	
 		return catedto;
-	}
+	}*/
 	@RequestMapping("/catesearch")
 	public String catesearch(String[] chk,Model model)throws Exception{
 		
 		
-		return "/category/searchcate";
+		return "/search/search";
 	}
 
 
