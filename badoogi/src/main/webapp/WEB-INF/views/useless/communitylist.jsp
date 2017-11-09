@@ -236,10 +236,7 @@ function insertlike(v,y){
 	 }
 	}
 
-function hashtag(v){
-	
-	alert(v);
-}
+
 </script>
 </head>
 

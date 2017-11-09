@@ -7,13 +7,12 @@ import java.util.Random;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import kr.ac.badoogi.service.CommunityService;
 import kr.ac.badoogi.vo.CommunityVo;
 import kr.ac.badoogi.vo.ImageVo;
+import kr.ac.badoogi.vo.UserVo;
 
 @Controller
 @RequestMapping("/community")
@@ -73,17 +73,15 @@ public class CommunityController {
 	}
 
 	@RequestMapping("/commulist")
-	public String commulist()throws Exception{
-		
-		return "/community/communitylist";
+	public String commulist(String email,Model model,HttpSession session)throws Exception{
+	
+		List<CommunityVo> commu=communityservice.Communitylist(email);
+		model.addAttribute("commuvo",commu);
+		return "/community/commulist";
 	}
 	
 	//¡¡æ∆ø‰
-	@RequestMapping("/getlist")
-	public @ResponseBody List<CommunityVo> getlist(String email)throws Exception{
-		List<CommunityVo> commu=communityservice.Communitylist(email);
-		return commu;
-	}
+	
 	
 	@RequestMapping("/detail")
 	public String detail(CommunityVo commuvo,Model model)throws Exception{
@@ -101,7 +99,7 @@ public class CommunityController {
 	
 	@RequestMapping("/personallist")
 	public String personallist(String email,Model model)throws Exception{
-		
+	
 		model.addAttribute("email",email);
 		return "/community/personallist";
 		

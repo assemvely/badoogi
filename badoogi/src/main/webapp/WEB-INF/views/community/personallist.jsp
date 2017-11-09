@@ -311,7 +311,7 @@ function insertlike(v,y){
 <p style="text-align:center;color:gray;font-size:20px;">list</p>
 <hr/>
 <div id="form_style">
-
+<h2>${email} 님의 개인공간</h2>
 <div id="onoff">
 </div>
  <input type="hidden" id="email" value="${email}">

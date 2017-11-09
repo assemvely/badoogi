@@ -41,20 +41,23 @@ public class SearchController {
 		return "/search/commusearch";
 	}
 	@RequestMapping(value="searchpage")
-	public String searchpage(@RequestParam("keyword") String keyword,Model model)throws Exception{
+	public String searchpage(SearchDto dto, String keyword,Model model)throws Exception{
 		
-		model.addAttribute("dto",keyword);
+		model.addAttribute("dto",keyword+"검색결과입니다");
+		dto.setKeyword("%"+dto.getKeyword()+"%");
 		
-		return "/community/searchpage";
+		List<CommunityVo> commuvo=searchservice.Commusearch(dto);
+		model.addAttribute("commuvo",commuvo);
+		return "/community/commulist";
 	}
-	@RequestMapping("/commulistsearch")
+/*	@RequestMapping("/commulistsearch")
 	public @ResponseBody List<CommunityVo> Commusearch(String keyword,SearchDto dto)throws Exception{
 		dto.setKeyword("%"+dto.getKeyword()+"%");
 	
 		List<CommunityVo> commuvo=searchservice.Commusearch(dto);
 	
 		return commuvo;
-	}
+	}*/
 	@RequestMapping("/locadetail")
 	public String location(String location,Model model)throws Exception{
 		
@@ -62,6 +65,8 @@ public class SearchController {
 		return "/search/locadetail";
 		
 	}
+	
+
 	
 	@RequestMapping("/mygps")
 	public String mygps(LocationDto dto,Model model)throws Exception{

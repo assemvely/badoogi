@@ -233,9 +233,9 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
 </button>
 </a>
 
-<a href="/community/commulist">
+<a href="/community/commulist?email=${login.email}">
 <button type="submit"   style="font-size:20px;">
-커뮤리스트
+<img src="/resources/glyphicons/glyphicons-28-search.png">커뮤니티
 </button>
 </a>
 
@@ -262,21 +262,10 @@ font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', '맑은 고딕', Dotum, 'App
 
 </a>
 
-<a href="/search/commusearch">
-<button type="submit"   style="font-size:20px;">
-<img src="/resources/glyphicons/glyphicons-28-search.png">커뮤니티
-</button>
-
-
-</a>
-
-
 <a href="/manager/topromotion">
 <button type="submit"   style="font-size:20px;">
 기획전
 </button>
-
-
 </a>
 
 <a href="/manager/promotionlist">
