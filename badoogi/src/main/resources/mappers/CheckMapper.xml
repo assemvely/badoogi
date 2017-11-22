@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+	<mapper namespace="kr.ac.badoogi.mapper.CheckMapper">
+	
+			<!-- loginCHECK -->
+		<select id="Nickoverlap" resultType="String">
+			SELECT NICKNAME FROM NICKNAMETB WHERE NICKNAME=#{nickname}
+		</select>
+		<select id="Emailoverlap" resultType="String">
+			SELECT EMAIL FROM USERTB WHERE EMAIL=#{email}
+		</select>
+			<!-- entCHECK -->
+		<select id="Storename" resultType="kr.ac.badoogi.dto.EntinfoDto">
+			SELECT LICENSENUMBER,STORENAME,ADDRESS FROM ENTERPRISEDETAILTB WHERE STORENAME=#{storename}
+		</select>	
+	</mapper>

@@ -240,12 +240,12 @@ function hashtag(){
 	
 	
 	
-	<c:choose>
+<%-- 	<c:choose>
 	<c:when test="${commuvo.privateor=='Y' }">
 	<img src="/resources/glyphicons/glyphicons-204-lock.png"><hr/>
 							
 	</c:when>
-	</c:choose>
+	</c:choose> --%>
 	<c:choose>
 	<c:when test="${commuvo.badoom==1}">
 	<input type="checkbox" id="badoom" onclick="insert(this,${commuvo.communitybno });" checked>

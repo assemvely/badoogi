@@ -1,12 +1,16 @@
 package kr.ac.badoogi.dao.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.badoogi.dao.UserDao;
+import kr.ac.badoogi.dto.CpuseDto;
 import kr.ac.badoogi.dto.LoginDto;
+import kr.ac.badoogi.vo.CouponVo;
 import kr.ac.badoogi.vo.LicenseeVo;
 import kr.ac.badoogi.vo.UserVo;
 
@@ -47,6 +51,30 @@ public class UserDaoImpl implements UserDao{
 	public void Insertimg(UserVo uservo) throws Exception {
 		// TODO Auto-generated method stub
 		session.insert(namespace+".Insertimg",uservo);
+	}
+
+	@Override
+	public List<UserVo> Userlist() throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".Userlist");
+	}
+
+	@Override
+	public List<UserVo> Entlist() throws Exception {
+		// TODO Auto-generated method stub
+		return  session.selectList(namespace+".Entlist");
+	}
+
+	@Override
+	public List<CouponVo> Mycoupon(String email) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".Mycoupon",email);
+	}
+
+	@Override
+	public void Changestatus(CpuseDto cpdto) throws Exception {
+		// TODO Auto-generated method stub
+		session.update(namespace+".Changestatus",cpdto);
 	}
 
 }

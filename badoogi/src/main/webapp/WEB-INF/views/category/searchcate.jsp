@@ -42,8 +42,12 @@ align:center;
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <script type="text/javascript">
+$(document).ready(function(){
+	
+	hashtag();
 
 
+});
 
 
 function insert(v,y){
@@ -120,17 +124,52 @@ if($(v).prop("checked")){
 }
 }
 }
+
+
+function hashtag(){
+	var cols = document.querySelectorAll('#hashtag'); 
+	 
+	for( var i = 0; i < cols.length; i++ ){
+		  var item = cols.item(i);
+		var hashtag=item.innerHTML;
+		
+		var Arr=hashtag.split(' ');
+		var str="";
+		var email=$("#login").val();
+		 for(var word in Arr)
+		{
+			
+		  word = Arr[word];
+		
+		   if(word.indexOf('#') == 0) // # 문자를 찾는다.
+		   { 
+			
+
+			      word= "<a href='/search/catehash?keyword="+word.replace("#","")+"&email="+email+"'>"+word+"</a>"; 
+		
+		   }
+		   str += word+' ';
+		   
+		} 
+			/* "<br><p onclick='hashtag(this);'>"+this.hashtag+"</p>"
+		; */
+		
+		item.innerHTML = str;
+	}
+
+
+}
 </script>
 </head>
 
 <body>
-<div class="form-group" margin-top: 5px; ">
 <p style="text-align:center;color:gray;font-size:20px;">list</p>
 <hr/>
 <div id="form_style">
 <form action="/search/catehash">
-<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" style="width:700px;height:55px;" placeholder="${keyword}검색결과입니다"><button id="searchbtn" class="btn">검색</button>
 <input type="hidden" id="email" value="${login.email }">
+<img src="/resources/glyphicons/glyphicons-28-search.png">  <input type="text" id="keyword" value="${dto}" name="keyword" style="width:700px;height:55px;" placeholder="${keyword}검색결과입니다"><button id="searchbtn" class="btn">검색</button>
+
 </form>
 <input type="hidden" id="mygps" value="${keyword}">
 <input type="hidden" id="login" value="${login.email }">
@@ -144,7 +183,8 @@ if($(v).prop("checked")){
 <img class="img_wrap" src="/user/showimg?realPath=${catedto.realPath}&realfilename=${frontimg}"/>
 </a>
 <input type="hidden" id="licensenumber" value="${catedto.licensenumber}">
-		
+<br/>
+<div id="hashtag">${catedto.hashtag }</div>
 		
 
 	<c:choose>
@@ -160,11 +200,11 @@ if($(v).prop("checked")){
 	
 	<c:choose>
 	<c:when test="${catedto.likee==1}">
-	<input type="checkbox" id="like" onclike="insertlike(this,${catedto.licensenumber});" checked>
+	<input type="checkbox" id="like" onclick="insertlike(this,${catedto.licensenumber});" checked>
 	<h3>좋아요  ${catedto.likenum}</h3>
 	</c:when>
 	<c:otherwise>
-	<input type="checkbox" id="like" onclike="insertlike(this,${catedto.licensenumber});">
+	<input type="checkbox" id="like" onclick="insertlike(this,${catedto.licensenumber});">
 	<h3>좋아요  ${catedto.likenum}</h3>
 	</c:otherwise>
 	</c:choose>

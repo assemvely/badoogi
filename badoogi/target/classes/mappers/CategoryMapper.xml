@@ -61,7 +61,7 @@
 		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
         AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
 		AND ENTERPRISEDETAILTB.PRIVATE='N'
-		AND CATEGORY like #{category}
+		AND CATEGORY like CONCAT('%',#{category},'%')
         group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
 		,private,frontimg,realpath,hashtag
 	</select>

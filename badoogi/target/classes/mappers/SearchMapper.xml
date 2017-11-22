@@ -20,7 +20,7 @@
     	FROM COMMUNITYTB JOIN NICKNAMETB,COMMUNITYIMGTB 
     	WHERE PRIVATE='N' AND COMMUNITYTB.EMAIL=NICKNAMETB.EMAIL 
     	AND COMMUNITYTB.COMMUNITYBNO=COMMUNITYIMGTB.COMMUNITYBNO
-    	 and (nickname like #{keyword} or comment like #{keyword})
+    	 and (nickname like CONCAT('%',#{keyword},'%') or comment like CONCAT('%',#{keyword},'%'))
     </select>
     
     <select id="Getcatesearch" resultType="kr.ac.badoogi.dto.CatelistDto">
@@ -39,7 +39,7 @@
 		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
         AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
 		AND ENTERPRISEDETAILTB.PRIVATE='N'
-		and ADDRESS LIKE #{city}
+		and ADDRESS LIKE CONCAT('%',#{city},'%')
         group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
 		,private,frontimg,realpath,hashtag
     </select>
@@ -60,9 +60,9 @@
 		where ENTERPRISEDETAILTB.LICENSENUMBER=CATEGORYTB.LICENSENUMBER
         AND ENTIMGTB.LICENSENUMBER=ENTERPRISEDETAILTB.LICENSENUMBER
 		AND ENTERPRISEDETAILTB.PRIVATE='N'
-         and (storename like #{keyword} or hashtag like #{keyword})
+         and (storename like CONCAT('%',#{keyword},'%') or hashtag like CONCAT('%',#{keyword},'%'))
 		 group by contact,enterprisedetailtb.licensenumber ,address,weekend,weekday,domain,storename,parking,cp_entnum
-		,private,frontimg,realpath,hashtag;
+		,private,frontimg,realpath,hashtag
     
     </select>
 	</mapper>

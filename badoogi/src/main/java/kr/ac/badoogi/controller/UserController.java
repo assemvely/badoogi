@@ -1,33 +1,33 @@
 package kr.ac.badoogi.controller;
 
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import kr.ac.badoogi.dto.CpuseDto;
 import kr.ac.badoogi.dto.LoginDto;
 import kr.ac.badoogi.service.UserService;
-
-import kr.ac.badoogi.vo.LicenseeVo;
-import kr.ac.badoogi.vo.ManageVo;
-import kr.ac.badoogi.vo.UserVo;
 import kr.ac.badoogi.source.ImageView;
-
-import java.io.File;
-import java.util.Map;
-import java.util.Random;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import kr.ac.badoogi.vo.CouponVo;
+import kr.ac.badoogi.vo.LicenseeVo;
+import kr.ac.badoogi.vo.UserVo;
 
 
 @Controller
@@ -177,6 +177,42 @@ public class UserController {
 		return entity;
 	}
 
-	
+	@RequestMapping(value="/userlist")
+	public String userlist(Model model)throws Exception{
+		
+		List<UserVo> uservo=userservice.Userlist();
+		List<UserVo> entvo=userservice.Entlist();
+		model.addAttribute("uservo",uservo);
+		model.addAttribute("entvo",entvo);
+		
+		return "/user/userlist";
+	}
 
+	@RequestMapping(value="/cpgive")
+public String cpgive(Model model,int couponbno)throws Exception{
+		
+		List<UserVo> uservo=userservice.Userlist();
+		List<UserVo> entvo=userservice.Entlist();
+		model.addAttribute("uservo",uservo);
+		model.addAttribute("entvo",entvo);
+		model.addAttribute("couponbno",couponbno);
+		
+		return "/user/userlist";
+	}
+
+	@RequestMapping("/mycoupon")
+	public String Mycoupon(String email,Model model)throws Exception{
+	
+		List<CouponVo> couponvo=userservice.Mycoupon(email);
+		model.addAttribute("coupon",couponvo);
+		return "/manager/couponlist";
+	}
+	
+	@RequestMapping("/changestatus")
+	public @ResponseBody String Changestatus(CpuseDto cpdto)throws Exception{
+		String done="";
+		cpdto.setStatus("used");
+		userservice.Changestatus(cpdto);
+		return done;
+	}
 }

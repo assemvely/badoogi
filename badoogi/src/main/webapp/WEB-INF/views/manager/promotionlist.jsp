@@ -92,6 +92,32 @@ input.cmn-toggle-round:checked + label:after {
 
 </script>
 </head>
+<script type="text/javascript">
+
+function on(v,y){
+
+	$.ajax({
+		contentType:'application.json',
+		type:'get',
+		url:'/manager/delprodisplay',
+		data:'bno='+y,
+		
+		success:function(){
+		
+			alert("삭제합니다");
+			document.getElementById(v).style.display = "none"; 
+			
+
+			
+			
+		}
+		
+		
+	});
+}
+
+
+</script>
 
 <body>
 <div class="form-group" margin-top: 5px; ">
@@ -102,11 +128,22 @@ input.cmn-toggle-round:checked + label:after {
 <form action="/manager/promotiondisplay">
 <input type="hidden" name="email" value="${login.email}">
 <c:forEach items="${provo }"  var="provo">
+
+
 <br/>
 <input type="checkbox" name="chk" value="${provo.bno}"><a href="/manager/readpromotion?bno=${provo.bno }">
  <img  src="/user/showimg?realPath=${provo.realPath}&realfilename=${provo.realfilename}"
                                  alt="no images">
                                  </a>
+  <c:forEach items="${display }" var="pro">
+  <c:choose>
+  <c:when test="${pro.bno==provo.bno }">
+  <input type="button" id="btnoff" value="기획전취소" class="btn" style="font-size:20px; margine-right:300px; background-color:silver;" onclick="on('btnoff','${provo.bno}');">
+  
+  </c:when>
+  </c:choose>
+  
+  </c:forEach>
  </c:forEach>
  <br/>
  <button class="btn" >전시 하기</button>

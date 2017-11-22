@@ -44,7 +44,7 @@ public class SearchController {
 	public String searchpage(SearchDto dto, String keyword,Model model)throws Exception{
 		
 		model.addAttribute("dto",keyword+"검색결과입니다");
-		dto.setKeyword("%"+dto.getKeyword()+"%");
+		dto.setKeyword(dto.getKeyword());
 		
 		List<CommunityVo> commuvo=searchservice.Commusearch(dto);
 		model.addAttribute("commuvo",commuvo);
@@ -52,9 +52,10 @@ public class SearchController {
 	}
 	
 	@RequestMapping(value="catehash")
-	public String catehast(String email,String keyword,SearchDto dto,Model model)throws Exception{
+	public String Getsearch(String email,String keyword,SearchDto dto,Model model)throws Exception{
+
 		
-		model.addAttribute("keyword",keyword+"검색결과입니다");
+		model.addAttribute("keyword",keyword);
 		List<CatelistDto> catedto=searchservice.Getsearch(dto);
 		model.addAttribute("catedto",catedto);
 		return "/category/searchcate";
@@ -107,7 +108,7 @@ public class SearchController {
      		
      		
      		locadto.setEmail(email);
-    		locadto.setCity(locadto.getCity()+"%");
+    		locadto.setCity(locadto.getCity());
     		
     		List<CatelistDto> catedto=searchservice.Getcatesearch(locadto);
     		model.addAttribute("keyword",realgps);

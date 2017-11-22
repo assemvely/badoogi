@@ -1,10 +1,13 @@
 package kr.ac.badoogi.service.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import kr.ac.badoogi.dao.CheckDao;
+import kr.ac.badoogi.dto.EntinfoDto;
 import kr.ac.badoogi.service.CheckService;
 import kr.ac.badoogi.vo.CheckVo;
 
@@ -26,6 +29,12 @@ public class CheckServiceImpl implements CheckService{
 	public String Emailoverlap(CheckVo checkvo) throws Exception {
 		// TODO Auto-generated method stub
 		return checkdao.Emailoverlap(checkvo);
+	}
+
+	@Override
+	public List<EntinfoDto> Storename(String storename) throws Exception {
+		// TODO Auto-generated method stub
+		return checkdao.Storename(storename);
 	}
 
 }

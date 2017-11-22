@@ -1,5 +1,7 @@
 package kr.ac.badoogi.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ac.badoogi.dto.EntinfoDto;
 import kr.ac.badoogi.service.CheckService;
 import kr.ac.badoogi.vo.CheckVo;
 
@@ -33,5 +36,12 @@ public class CheckController {
 		String email=checkservice.Emailoverlap(checkvo);
 	
 		return email;
+	}
+	
+	@RequestMapping(value="/storenamefind",method=RequestMethod.GET)
+	public @ResponseBody List<EntinfoDto> Storename(String storename)throws Exception{
+		List<EntinfoDto> entinfo=checkservice.Storename(storename);
+		return entinfo;
+		
 	}
 }

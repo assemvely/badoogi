@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import kr.ac.badoogi.dao.ManageDao;
 import kr.ac.badoogi.dto.CatelistDto;
+import kr.ac.badoogi.dto.CpcheckDto;
+import kr.ac.badoogi.dto.CpuseDto;
 import kr.ac.badoogi.dto.EmailbnoDto;
 import kr.ac.badoogi.dto.ProVo;
+import kr.ac.badoogi.vo.CouponVo;
 import kr.ac.badoogi.vo.ImageVo;
 import kr.ac.badoogi.vo.ManageVo;
 import kr.ac.badoogi.vo.Pro_cpimgVo;
@@ -99,6 +102,37 @@ public class ManageDaoImpl implements ManageDao{
 	public List<Pro_cpimgVo> Getpro_dispaly() throws Exception {
 		// TODO Auto-generated method stub
 		return session.selectList(namespace+".Getpro_dispaly");
+	}
+	@Override
+	public void Couponupload(CouponVo couponvo) throws Exception {
+		// TODO Auto-generated method stub
+		session.insert(namespace+".Couponupload",couponvo);
+	}
+	@Override
+	public List<CouponVo> Couponlist(String code) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".Couponlist",code);
+	}
+	@Override
+	public CouponVo Incoupon(int couponbno) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".Incoupon",couponbno);
+	}
+	@Override
+	public void Cptouser(CpuseDto cpdto) throws Exception {
+		// TODO Auto-generated method stub
+		session.insert(namespace+".Cptouser",cpdto);
+	}
+
+	@Override
+	public CpcheckDto Couponcheck(String licensenumber) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectOne(namespace+".Couponcheck",licensenumber);
+	}
+	@Override
+	public void Delprodisplay(int bno) throws Exception {
+		// TODO Auto-generated method stub
+		session.delete(namespace+".Delprodisplay",bno);
 	}
 	
 

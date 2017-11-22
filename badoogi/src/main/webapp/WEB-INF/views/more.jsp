@@ -6,70 +6,61 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <script src="/resources/jquery/jquery-1.12.4.min.js"></script>
-<head>
+<!-- drawer.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css">
+<!-- jquery & iScroll -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+<!-- drawer.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
 <style>
-#form_style{
-aling:center;
-margin-top:10px;
-margin-left:570px;
-margin-bottom:80px;
+$('.drawer').drawer({
+  class: {
+    nav: 'drawer-nav',
+    toggle: 'drawer-toggle',
+    overlay: 'drawer-overlay',
+    open: 'drawer-open',
+    close: 'drawer-close',
+    dropdown: 'drawer-dropdown'
+  },
+  iscroll: {
+    // Configuring the iScroll
+    // https://github.com/cubiq/iscroll#configuring-the-iscroll
+    mouseWheel: true,
+    preventDefault: false
+  },
+  showOverlay: true
+});
 
-}
-
-.btn{
-width:775px;
-height:60px;
-background-color:#FACC2E;
-border:1x solid #FACC2E;
-}
-.img_wrap{
-width:700px;
-margin-top:10px
-
-}
-
-.img_wrap img{
-max-width:100%;
-align:center;
-}
 </style>
+
+<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	  $('.drawer').drawer();
+	});
+</script>
 </head>
-<body>
-
-<div  margin-top: 5px; ">
-<p style="text-align:center;color:gray;font-size:20px;">list</p>
-<hr/>
-<img src="/resources/basicimg/basic_profile.jpg"> 
-<a href="/user/loginpage">로그인</a> | <a href="/user/userjoin">회원가입</a>
-<br/><br/><br/>
-<c:choose>
-<c:when test="${login.usercode=='cus'}">
-
-<a href="/community/personallist?email=${login.email}">
-<button type="submit"   style="font-size:20px;">
-<img src="/resources/glyphicons/glyphicons-4-user.png"/>마이페이지
-</button>
-</a>
-</c:when>
-<c:when test="${login.usercode=='ent'}">
-
-<a href="/category/detail?licensenumber=${login.licensenumber}">
-<button type="submit"   style="font-size:20px;">
-<img src="/resources/glyphicons/glyphicons-4-user.png"/>My페이지
-</button>
-</a>
-</c:when>
-<c:when test="${login==null }">
-
-<button type="submit"   style="font-size:20px;">
-<img src="/resources/glyphicons/glyphicons-4-user.png"/>My페이지
-</button>
-
-</c:when>
-
-</c:choose>
-</div>
+<body class="drawer drawer--left">
+  <header role="banner">
+    <button type="button" class="drawer-toggle drawer-hamburger">
+      <span class="sr-only">toggle navigation</span>
+      <span class="drawer-hamburger-icon">더보기</span>
+    </button>
+    <nav class="drawer-nav" role="navigation">
+      <ul class="drawer-menu">
+        <li><a class="drawer-brand" href="#">Brand</a></li>
+        <li><a class="drawer-menu-item" href="#">Nav1</a></li>
+        <li><a class="drawer-menu-item" href="#">Nav2</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main role="main">
+    <!-- Page content -->
+  </main>
 </body>
 </html>

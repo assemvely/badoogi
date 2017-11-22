@@ -123,12 +123,7 @@ public class CategoryController {
 	
 	@RequestMapping(value="/categorylist")
 	public String categorylist(CatelistDto catelist,Model model)throws Exception{
-		String all=catelist.getCategory();
-		if(all.equals("All")){
-				catelist.setCategory("%%");
-			}
-			System.out.println("어어"+catelist.getCategory());
-		
+
 		
 				model.addAttribute("catelist",catelist);												//목록으로 
 		return "/category/categorylist";

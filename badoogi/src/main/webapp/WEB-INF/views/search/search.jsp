@@ -30,14 +30,34 @@ border:1x solid #FACC2E;
 <body>
 <p style="text-align:center;color:gray;font-size:20px;">search</p>
 <hr/>
+|
 <div id="form_style">
 
 <form action="/search/catehash">
 <input type="hidden" name="email" value=${login.email }>
-<input type="text" name="keyword" style="width:700px;height:55px;" placeholder="#검색어를 입력해주세요"><button class="btn">검색</button>
+<img src="/resources/glyphicons/glyphicons-28-search.png"><input type="text" name="keyword" style="width:700px;height:55px;" placeholder="#검색어를 입력해주세요"><button class="btn">검색</button>
 
 
 </form>
+
+
+<h3>추천 검색어</h3>
+
+<div id="ranking-left" style="float:left;">
+
+<input type="text" placeholder="1">
+<input type="text" placeholder="2">
+<input type="text" placeholder="3">
+<input type="text" placeholder="4">
+<input type="text" placeholder="5">
+</div>
+<div id="ranking-right">
+<input type="text" placeholder="6">
+<input type="text" placeholder="7">
+<input type="text" placeholder="8">
+<input type="text" placeholder="9">
+<input type="text" placeholder="10">
+</div>
 </div>
 </body>
 </html>

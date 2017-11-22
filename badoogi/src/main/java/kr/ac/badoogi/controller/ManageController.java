@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-
+import java.lang.Math;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,13 +28,14 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import kr.ac.badoogi.dto.CatelistDto;
+import kr.ac.badoogi.dto.CpcheckDto;
+import kr.ac.badoogi.dto.CpuseDto;
 import kr.ac.badoogi.dto.EmailbnoDto;
 import kr.ac.badoogi.service.ManageService;
+import kr.ac.badoogi.vo.CouponVo;
 import kr.ac.badoogi.vo.ImageVo;
 import kr.ac.badoogi.vo.ManageVo;
 import kr.ac.badoogi.vo.Pro_cpimgVo;
-import kr.ac.badoogi.vo.PromotionVo;
-
 @Controller
 @RequestMapping("/manager")
 public class ManageController {
@@ -183,12 +184,15 @@ List<ManageVo> banner= manageservice.Getbanner();
 	
 	@RequestMapping(value="/delbanner")
 	public @ResponseBody void delbanner(int bno)throws Exception{
-		System.out.println("비엔도"+bno);
 		manageservice.Delbanner(bno);
 		
 		
 	}
-	
+	@RequestMapping(value="/delprodisplay")
+	public @ResponseBody void Delprodisplay(int bno)throws Exception{
+		manageservice.Delprodisplay(bno);
+		
+	}
 	@RequestMapping(value="/getlist")
 	public String Getlist(String managecode,Model model)throws Exception{
 		
@@ -244,7 +248,8 @@ List<ManageVo> banner= manageservice.Getbanner();
 	public String Promotionlist(Model model)throws Exception{
 		String code="promotion";
 		List<Pro_cpimgVo> provo=manageservice.Promotionlist(code);
-		
+		List<Pro_cpimgVo> display=manageservice.Getpro_dispaly();
+		model.addAttribute("display",display);
 		model.addAttribute("provo",provo);
 		return "/manager/promotionlist";
 	}
@@ -279,5 +284,100 @@ List<ManageVo> banner= manageservice.Getbanner();
 		return "redirect:/all/page";
 	}
 	
+	@RequestMapping("/coupon")
+	public String coupon()throws Exception{
+		return "/manager/couponinsert";
+	}
 	
+	 @RequestMapping("/couponupload")
+	 public String Couponupload(String savePath,String savePath2,CouponVo couponvo,Pro_cpimgVo imgvo,Model model,
+				MultipartFile imageFile,MultipartFile imageFile2,
+				 MultipartHttpServletRequest request, MultipartHttpServletRequest request2,
+				 HttpServletResponse response)throws Exception{
+		 
+		 
+
+			Random random=new Random();
+			Map<String, MultipartFile> files = ((MultipartRequest) request).getFileMap();
+			Map<String, MultipartFile> files2 = ((MultipartRequest) request).getFileMap();
+			
+				CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("imageFile");
+				CommonsMultipartFile cmf2 = (CommonsMultipartFile) files.get("imageFile2");
+				
+				//String savePath =request.getServletContext().getRealPath("/resources/managerimg");  
+				 
+				
+				String realfilename1=random.nextInt(10000)+cmf.getOriginalFilename();
+				 String realPath1=savePath+"/"+realfilename1;
+				
+				String realfilename2=random.nextInt(10000)+cmf2.getOriginalFilename();
+				 String realPath2=savePath2+"/"+realfilename2;
+				
+				 File file = new File(realPath1);
+				 File file2 = new File(realPath2);
+			
+					// 파일 업로드 처리 완료.
+					cmf.transferTo(file);
+					cmf2.transferTo(file2);
+			imgvo.setCode("coupon");
+			imgvo.setRealfilename(realfilename1);
+			imgvo.setRealPath(realPath1);//대문사진
+			
+			couponvo.setRealfilename(realfilename2);
+			couponvo.setRealPath(realPath2);
+			
+			manageservice.Couponupload(couponvo,imgvo);
+		 return "redirect:/manager/tocouponlist";
+	 }
+	 
+		@RequestMapping("/tocouponlist")
+		public String tocouponlist(Model model)throws Exception{
+			String code="coupon";
+			List<CouponVo> couponvo=manageservice.Couponlist(code);
+			
+			model.addAttribute("coupon",couponvo);
+			return "/manager/couponlist";
+		}
+		@RequestMapping("/incoupon")
+		public @ResponseBody CouponVo Incoupon(int couponbno)throws Exception{
+			
+			CouponVo couponvo=manageservice.Incoupon(couponbno);
+		
+			return couponvo;
+		}
+		@RequestMapping("/couponcheck")
+		public String Couponcheck(String randomnum,String licensenumber,Model model)throws Exception{
+			CpcheckDto coupon=manageservice.Couponcheck(licensenumber);
+			model.addAttribute("coupon",coupon);
+			model.addAttribute("randomnum",randomnum);
+
+			return "/manager/couponcheck";
+		}
+		
+		@RequestMapping("/cpgive")
+		public String cpgive(Model model,int couponbno)throws Exception{
+			model.addAttribute("couponbno",couponbno);
+			return "redirect:/user/userlist";
+		}
+		
+		@RequestMapping("/cptouser")
+		public String Cptouser(String[] email,CpuseDto cpdto)throws Exception{
+			String  possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			String random="";
+			for(int i=0;i<email.length;i++){
+				cpdto.setEmail(email[i]);
+				
+				
+				 for(int j=0; j < 5; j++ )
+				        random+= possible.charAt((int) Math.floor(Math.random() * possible.length()));
+				cpdto.setRandomnum(random);
+				cpdto.setStatus("valid");
+				manageservice.Cptouser(cpdto);
+				 
+				random="";
+			}
+			return "redirect:/manager/tocouponlist";
+		}
+		
+		
 }

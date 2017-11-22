@@ -9,13 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.ac.badoogi.dao.ManageDao;
 import kr.ac.badoogi.dto.CatelistDto;
+import kr.ac.badoogi.dto.CpcheckDto;
+import kr.ac.badoogi.dto.CpuseDto;
 import kr.ac.badoogi.dto.EmailbnoDto;
 import kr.ac.badoogi.dto.ProVo;
 import kr.ac.badoogi.service.ManageService;
+import kr.ac.badoogi.vo.CouponVo;
 import kr.ac.badoogi.vo.ImageVo;
 import kr.ac.badoogi.vo.ManageVo;
 import kr.ac.badoogi.vo.Pro_cpimgVo;
-import kr.ac.badoogi.vo.PromotionVo;
 
 @Service
 public class ManageServiceImpl implements ManageService{
@@ -123,6 +125,49 @@ public class ManageServiceImpl implements ManageService{
 	public List<Pro_cpimgVo> Getpro_dispaly() throws Exception {
 		// TODO Auto-generated method stub
 		return managedao.Getpro_dispaly();
+	}
+
+	@Transactional
+	@Override
+	public void Couponupload(CouponVo couponvo, Pro_cpimgVo imgvo) throws Exception{
+		// TODO Auto-generated method stub
+		
+		
+		int row=managedao.Insertproimg(imgvo);
+		int bno=imgvo.getBno();
+		
+		couponvo.setBno(bno);
+		managedao.Couponupload(couponvo);
+	}
+
+	@Override
+	public List<CouponVo> Couponlist(String code) throws Exception {
+		// TODO Auto-generated method stub
+		return managedao.Couponlist(code);
+	}
+
+	@Override
+	public CouponVo Incoupon(int couponbno) throws Exception {
+		// TODO Auto-generated method stub
+		return managedao.Incoupon(couponbno);
+	}
+
+	@Override
+	public void Cptouser(CpuseDto cpdto) throws Exception {
+		// TODO Auto-generated method stub
+		managedao.Cptouser(cpdto);
+	}
+
+	@Override
+	public CpcheckDto Couponcheck(String licensenumber) throws Exception {
+		// TODO Auto-generated method stub
+		return managedao.Couponcheck(licensenumber);
+	}
+
+	@Override
+	public void Delprodisplay(int bno) throws Exception {
+		// TODO Auto-generated method stub
+		managedao.Delprodisplay(bno);
 	}
 	
 	

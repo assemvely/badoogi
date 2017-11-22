@@ -39,6 +39,14 @@
 	<insert id="Promotiondisplay">
 		INSERT INTO PRO_DISPLAYTB(PROMOTIONBNO) VALUES(#{bno})
 	</insert>
+	
+	<insert id="Couponupload">
+		INSERT INTO COUPONTB(LICENSENUMBER,CAUTION,STARTDATE,ENDDATE,REALPATH,REALFILENAME,BENEFIT,BNO)
+		VALUES (#{licensenumber},#{caution},#{startdate},#{enddate},#{realPath},#{realfilename},#{benefit},#{bno})
+	</insert>
+	<insert id="Cptouser">
+		INSERT INTO CP_PERSONALTB(EMAIL,COUPONBNO,RANDOMNUM,STATUS) VALUES(#{email},#{couponbno},#{randomnum})
+	</insert>
 	<select id="Getpro_dispaly" resultType="kr.ac.badoogi.vo.Pro_cpimgVo">
 		
 		SELECT pro_cpimgtb.bno as bno,realfilename,realpath 
@@ -97,11 +105,31 @@
 	<select id="promotionimg" resultType="kr.ac.badoogi.vo.Pro_cpimgVo">
 		SELECT * FROM PRO_CPIMGTB WHERE BNO=#{bno}
 	</select>
+	<select id="Couponlist" resultType="kr.ac.badoogi.vo.CouponVo">
+		SELECT PRO_CPIMGTB.REALFILENAME AS REALRILENAME, PRO_CPIMGTB.REALPATH AS REALPATH,
+        ENTERPRISEDETAILTB.STORENAME AS STORENAME, ENTERPRISEDETAILTB.ADDRESS ,
+        STARTDATE,ENDDATE,
+        BENEFIT,COUPONTB.LICENSENUMBER AS LICENSNUMBER,COUPONBNO
+        FROM PRO_CPIMGTB,COUPONTB,ENTERPRISEDETAILTB WHERE PRO_CPIMGTB.CODE=#{code}
+        AND pro_cpimgtb.BNO=COUPONTB.BNO AND ENTERPRISEDETAILTB.LICENSENUMBER=COUPONTB.LICENSENUMBER
+	</select>
+	<select id="Incoupon" resultType="kr.ac.badoogi.vo.CouponVo">
+	SELECT ENTERPRISEDETAILTB.STORENAME AS STORENAME, ENTERPRISEDETAILTB.ADDRESS ,
+        STARTDATE,ENDDATE,CAUTION,COUPONTB.REALFILENAME AS REALFILENAME,COUPONTB.REALPATH AS REALPATH,
+        BENEFIT,COUPONTB.LICENSENUMBER AS LICENSENUMBER,COUPONBNO
+        FROM PRO_CPIMGTB,COUPONTB,ENTERPRISEDETAILTB WHERE COUPONBNO=#{couponbno}
+        AND pro_cpimgtb.BNO=COUPONTB.BNO AND ENTERPRISEDETAILTB.LICENSENUMBER=COUPONTB.LICENSENUMBER
+	</select>
+	<select id="Couponcheck" resultType="kr.ac.badoogi.dto.CpcheckDto">
+		SELECT  CP_ENTNUM FROM ENTERPRISEDETAILTB WHERE LICENSENUMBER=#{licensenumber}
+	</select>
 	<delete id="Delbanner">
 		DELETE FROM BANNERTB WHERE BNO=#{bno} 
 	
 	
 	</delete>
 		
-
+	<delete id="Delprodisplay">
+	 	DELETE FROM PRO_DISPLAYTB WHERE PROMOTIONBNO=#{bno}
+	</delete>
 	</mapper>
